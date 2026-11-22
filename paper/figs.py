@@ -4,14 +4,15 @@ from matplotlib.patches import FancyBboxPatch
 plt.rcParams.update({'font.family':'serif','font.serif':['Times New Roman','Nimbus Roman','DejaVu Serif'],'font.size':8,'pdf.fonttype':42})
 # Figure 1: methodology flow, horizontal
 fig,ax=plt.subplots(figsize=(7,1.35)); ax.set_xlim(0,100); ax.set_ylim(0,20); ax.axis('off')
-st=[('1 Dataset','111 sites x 28 factors\n(Ramat et al.)'),('2 Guidance coding','5 sources,\nstrength per factor'),('3 Inconsistency','Normalised entropy\nper factor'),('4 Hypothesis tests','Spearman, Fisher,\nMann-Whitney, BH'),('5 Cause and harm','6 cause codes,\n3 harm levels')]
-w=17.2; g=3.5
+st=[('1 Dataset','111 sites x 28 factors\n(Ramat et al.)'),('2 Guidance coding','5 sources,\nstrength per factor'),('3 Inconsistency','Normalised entropy\nper factor'),('4 Hypothesis tests','Spearman, Fisher,\nMann-Whitney, BH'),('5 Cause and harm','6 cause codes,\n3 harm levels'),('6 Logged options','89 sites, WebAuthn\n(Jannett et al.)')]
+w=14.0; g=3.2
 for i,(n,b) in enumerate(st):
     x=i*(w+g)
-    ax.add_patch(FancyBboxPatch((x,2),w,16,boxstyle='round,pad=0,rounding_size=1.2',fc='#e8f0fb' if i==4 else 'white',ec='#2f6db5' if i==4 else '#555',lw=1.2 if i==4 else 0.8))
-    ax.text(x+w/2,13.5,n,ha='center',va='center',fontweight='bold',fontsize=8.5)
-    ax.text(x+w/2,7.5,b,ha='center',va='center',fontsize=7.5,color='#333')
-    if i<4: ax.annotate('',xy=(x+w+g-0.3,10),xytext=(x+w+0.3,10),arrowprops=dict(arrowstyle='->',color='#555',lw=0.8))
+    hi=i>=4
+    ax.add_patch(FancyBboxPatch((x,2),w,16,boxstyle='round,pad=0,rounding_size=1.2',fc='#e8f0fb' if hi else 'white',ec='#2f6db5' if hi else '#555',lw=1.2 if hi else 0.8))
+    ax.text(x+w/2,13.5,n,ha='center',va='center',fontweight='bold',fontsize=8)
+    ax.text(x+w/2,7.5,b,ha='center',va='center',fontsize=7,color='#333')
+    if i<len(st)-1: ax.annotate('',xy=(x+w+g-0.3,10),xytext=(x+w+0.3,10),arrowprops=dict(arrowstyle='->',color='#555',lw=0.8))
 fig.savefig('fig1.pdf',bbox_inches='tight',pad_inches=0.02)
 # Figure 2: scatter
 d=[('F01',1.78,.29),('F02',1.44,.59),('F03',0.77,.62),('F04',1.7,.77),('F05',0.96,.24),('F06',1.08,.66),('F07',1.0,.24),('F08',1.7,.11),('F09',0.81,.43),('F10',0.85,.43),('F11',0.92,.14),('F12',1.04,.19),('F13',0.15,.65),('F14',0.85,.45),('F15',0.39,.63),('F16',0.7,.63),('F17',0.04,.40),('F18',1.85,.62),('F19',2.0,.08),('F20',0.77,.53),('F21',0.77,.54),('F22',1.0,.60),('F23',1.78,.24),('F24',1.78,.11),('F25',0.92,.49),('F26',0.0,.67),('F27',0.7,.57),('F28',0.74,.61)]
@@ -50,4 +51,20 @@ hs=[Line2D([],[],marker='o',ls='',color=col[c],label=names[c],markersize=4) for 
 ax.legend(handles=hs,fontsize=6,ncol=3,loc='upper center',bbox_to_anchor=(0.5,1.2),frameon=False,handletextpad=0.2,columnspacing=0.8)
 [s.set_linewidth(0.6) for s in ax.spines.values()]
 fig.savefig('fig3.pdf',bbox_inches='tight',pad_inches=0.02)
+# Figure 4: platform-only registration by cluster and service type (counts from analysis/a13_output.txt)
+panels=[('By original cluster',[('Standard',12,74),('Selective',13,14)]),
+        ('By service type',[('Finance',10,16),('Retail',2,7),('Other',13,66)])]
+fig,axes=plt.subplots(1,2,figsize=(3.33,2.1),gridspec_kw={'width_ratios':[2,3]},sharey=True)
+for ax,(title,rows) in zip(axes,panels):
+    labels=[r[0] for r in rows]; vals=[100*r[1]/r[2] for r in rows]
+    ax.bar(labels,vals,color='#2f6db5',width=0.6,edgecolor='white',linewidth=1)
+    for i,(lbl,k,nn) in enumerate(rows):
+        ax.text(i,100*k/nn+2,f'{100*k/nn:.0f}%\n{k}/{nn}',ha='center',va='bottom',fontsize=6.5)
+    ax.set_title(title,fontsize=7.5); ax.set_ylim(0,118)
+    ax.grid(axis='y',alpha=0.3,lw=0.5); ax.set_axisbelow(True)
+    for s in ('top','right'): ax.spines[s].set_visible(False)
+    [s.set_linewidth(0.6) for s in ax.spines.values()]
+axes[0].set_ylabel('Platform-only registration (%)')
+fig.tight_layout(w_pad=0.6)
+fig.savefig('fig4.pdf',bbox_inches='tight',pad_inches=0.02)
 print('ok')

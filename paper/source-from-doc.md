@@ -6,7 +6,7 @@ Nov 22, 2026 · @Dev Singh Shekhawat
 
 ## Abstract
 
-Passkeys follow one set of standards, yet websites implement them differently. A recent SOUPS study measured these differences across 111 websites using 28 comparison factors, but did not explain why they arise. We conducted a secondary analysis of that study's per-site data, combined with a structured coding of five guidance sources: the FIDO Alliance Design Guidelines, WebAuthn Level 3, and Google, Apple and Microsoft developer guidance. Factors on which guidance sources agree are implemented more consistently (Spearman ρ = −0.45, p = 0.016, with FIDO weighted at 70%), and the effect is robust to removing duplicate factors, browser-default factors or any single source, and to weighting all sources equally. One of the three reported website clusters is largely a single registration choice counted four times, concentrated in e-commerce and finance. The most harmful gap is unguided: 65% of websites re-authenticate users neither before a passkey is added nor before one is deleted. For the 21 factors that have not converged, guideline problems are the most likely main cause for 8, with the rest explained by technical defaults, legacy architecture, deliberate risk decisions and measurement artefacts. We propose 10 changes to the FIDO guidelines, 9 practices for websites and 4 requests to platform vendors, led by a lifecycle-security pattern and normative, versioned guidance.
+Passkeys follow one set of standards, yet websites implement them differently. A recent SOUPS study measured these differences across 111 websites using 28 comparison factors, but did not explain why they arise. We conducted a secondary analysis of that study's per-site data, combined with a structured coding of five guidance sources: the FIDO Alliance Design Guidelines, WebAuthn Level 3, and Google, Apple and Microsoft developer guidance. We then tested our explanations against an independent dataset: the WebAuthn registration and sign-in options that a second research team logged on 89 of the same websites. Factors on which guidance sources agree are implemented more consistently (Spearman ρ = −0.45, p = 0.016, with FIDO weighted at 70%), and the effect is robust to removing duplicate factors, browser-default factors or any single source, and to weighting all sources equally. One of the three reported website clusters is a single registration setting counted four times: 13 of the 14 cluster websites with logged options restrict registration to the device's own authenticator, against 12 of 74 other websites (Holm-adjusted p < 0.001). Their sign-in remains open to the authenticators that registration refuses. The setting follows sector risk posture (63% of finance websites against 21% of others) rather than the server library. The most harmful gap is unguided: 65% of websites re-authenticate users neither before a passkey is added nor before one is deleted, and the independent data show the same pattern. For the 21 factors that have not converged, guideline problems are the most likely main cause for 8, with the rest explained by technical settings, legacy architecture, deliberate risk decisions and measurement artefacts. We propose 10 changes to the FIDO guidelines, 9 practices for websites and 4 requests to platform vendors, each graded by the strength of its supporting evidence, led by a lifecycle-security pattern and a documented rule for restricted registration.
 
 ## 1 Introduction
 
@@ -14,11 +14,11 @@ Passkeys are a phishing-resistant replacement for passwords built on the FIDO2 a
 
 The original study was descriptive by design. Its authors note that their distance measure "does not clarify why websites differ or identify which specific design choices are most responsible for those differences" \[1\]. Answering that question determines who should act. If an inconsistency stems from vague guidance, the FIDO Alliance should revise its text. If it stems from browser behaviour, platform vendors must act. If it reflects a legitimate risk decision, forcing uniformity would be a mistake. If it is an artefact of the rubric, the measurement should change.
 
-To address this gap, we structured our analysis around four research questions. **RQ1:** How strongly and how consistently do current guidance sources address each of the 28 factors? **RQ2:** Does the strength or agreement of guidance explain which factors are implemented consistently? **RQ3:** What is the most likely cause of each remaining inconsistency, and which inconsistencies cause meaningful usability or security harm? **RQ4:** What changes to guidelines, websites and platforms would reduce harmful inconsistency without restricting legitimate product decisions?
+To address this gap, we structured our analysis around four research questions. **RQ1:** How strongly and how consistently do current guidance sources address each of the 28 factors? **RQ2:** Does the strength or agreement of guidance explain which factors are implemented consistently? **RQ3:** What is the most likely cause of each remaining inconsistency, and which inconsistencies cause meaningful usability or security harm? **RQ4:** Do the WebAuthn options that websites actually send confirm the explanations derived from the scores? **RQ5:** What changes to guidelines, websites and platforms would reduce harmful inconsistency without restricting legitimate product decisions?
 
-To answer these questions, we re-analysed the original study's published per-site scores and coded the current text of five guidance sources against every factor. We then tested hypotheses about each factor's cause using co-occurrence, site attributes and browser release timelines, and classified each factor by cause and by harm.
+To answer these questions, we re-analysed the original study's published per-site scores and coded the current text of five guidance sources against every factor. We then tested hypotheses about each factor's cause using co-occurrence, site attributes and browser release timelines, and classified each factor by cause and by harm. Finally, we joined the 111 websites with the registration and sign-in options that Jannett et al. \[20\] logged for their USENIX Security 2026 study, which gave us protocol-level evidence for 89 of the websites without visiting any of them ourselves.
 
-This study makes four main contributions. First, it provides a coded map of five guidance sources against all 28 factors, showing that the FIDO guidelines contain no normative MUST or SHOULD language and have not been updated since May 2024. Second, it provides statistical evidence, on the original study's own data, that agreement among guidance sources predicts implementation consistency. Third, it shows that a substantial part of the measured inconsistency comes from a single registration setting and from rubric artefacts, and it classifies every factor by its most likely cause and its harm. Finally, it offers 23 evidence-based recommendations for the FIDO Alliance, website developers and platform vendors.
+This study makes five main contributions. First, it provides a coded map of five guidance sources against all 28 factors, showing that the FIDO guidelines contain no normative MUST or SHOULD language and have not been updated since May 2024. Second, it provides statistical evidence, on the original study's own data, that agreement among guidance sources predicts implementation consistency. Third, it shows that a substantial part of the measured inconsistency comes from a single registration setting and from rubric artefacts, and it classifies every factor by its most likely cause and its harm. Fourth, it links a UX audit to independently logged WebAuthn options for the first time, confirming the registration-setting explanation, tracing it to sector risk posture rather than to server libraries, and measuring how far two independent audits agree. Finally, it offers 23 recommendations for the FIDO Alliance, website developers and platform vendors, each graded by the strength of the evidence behind it.
 
 ## 2 Background and Related Work
 
@@ -32,13 +32,17 @@ Comparative frameworks are a common way to evaluate authentication systems at sc
 
 Prior work suggests that differences in deployment have organisational and technical roots. Lassak et al. \[12\] found that companies struggle with legacy systems, account recovery and uneven platform support when deploying FIDO2. Studies of account recovery \[14, 15\] show that fallback and recovery flows frequently undo the security of strong authenticators. Daffalla et al. \[13\] analysed passkeys under interpersonal threat models and showed how temporary session access can be converted into persistent account control. Huaman et al. \[17\] documented interaction problems between password managers and websites, a problem that reappears with passkeys as credentials orphaned in a credential manager after deletion on the website. Usability studies of FIDO2 \[16\] report generally positive perceptions but persistent confusion around device loss, fallback and multi-device use.
 
-### 2.3 Design Guidelines
+### 2.3 Protocol-Level Measurements
+
+Two recent studies measure passkey deployments at the protocol level. Bhardwaj and Sastry \[21\] surveyed the top 100,000 Tranco domains and found that adoption correlates with popularity and often relies on external identity providers. Jannett et al. \[20\] built PASSKEYS-RADAR, a dataset of passkey-enabled websites tracked since 2021, and manually evaluated 208 independent implementations. For each website they logged the options passed to `navigator.credentials.create()` and `navigator.credentials.get()` and recorded whether adding a passkey required a confirmation step, then tested the implementations for protocol vulnerabilities. They report large differences in how websites add and delete passkeys but do not relate them to user-experience outcomes. Their released evaluation sheet is the second dataset in our study.
+
+### 2.4 Design Guidelines
 
 The FIDO Alliance Design Guidelines \[3\] organise passkey UX into required, optional and security-key patterns. The current text is hosted on Passkey Central, carries pattern dates of May 2022, May 2023 and May 2024, and has no version number or changelog. Google \[5, 6\], Apple \[7\] and Microsoft \[8\] publish their own developer guidance, which sometimes extends and sometimes contradicts FIDO's. WebAuthn Level 3 \[4\] is the only source that uses RFC 2119 keywords, and it addresses protocol behaviour rather than interface design. Ramat et al. used the June 2023 FIDO text as their baseline. To our knowledge, no prior work has linked observed passkey inconsistencies to the strength or agreement of the guidance behind each behaviour.
 
 ## 3 Methodology
 
-We conducted a secondary, desk-based study in five stages, shown in Figure 1. We first reproduced the original dataset (Section 3.1), then coded current guidance against each factor (Section 3.2), measured each factor's inconsistency (Section 3.3), tested candidate explanations (Section 3.4), and classified each factor by cause and harm (Section 3.5). We collected no new website observations.
+We conducted a secondary, desk-based study in six stages, shown in Figure 1. We first reproduced the original dataset (Section 3.1), then coded current guidance against each factor (Section 3.2), measured each factor's inconsistency (Section 3.3), tested candidate explanations (Section 3.4), and classified each factor by cause and harm (Section 3.5). Finally, we tested the explanations against independently logged WebAuthn options (Section 3.6). We collected no new website observations.
 
 &#91;embedded content: Figure 1: Methodology Overview\]
 
@@ -85,21 +89,27 @@ Each factor that had not converged received one primary cause code and up to two
 
 We rated harm separately for usability and security on three levels. High means a user can lose access or an attacker can gain persistent access. Medium means a user is misled, cannot perform an expected action, or loses a signal that would reveal an attack. Low means a cosmetic or discoverability difference. Factors whose variation reflects a defensible business decision with low harm are reported as legitimate variance.
 
-### 3.6 Limitations
+### 3.6 Linking to Logged WebAuthn Options
 
-This study has several limitations. By design we did not visit websites, log WebAuthn requests, or interview developers. Explanations that concern the options a website sends, such as the registration restriction discussed in Section 4.3, can therefore be supported or contradicted by the data but not directly confirmed.
+To test explanations that concern the options a website sends, we joined the 111 websites with the evaluation sheet released by Jannett et al. \[20\] (Apache-2.0). We matched websites by name and domain and checked every match by hand; where several sheet rows share a domain, we used the analysable row for the main product. All 111 websites matched, and 89 have logged registration and sign-in options; the other 22 could not be analysed by Jannett et al., mostly because registration failed or required a local phone number or paid access. From the logged options we derived the registration `authenticatorAttachment`, `hints`, `residentKey`, user verification, attestation and algorithm list, and the transports listed in the sign-in `allowCredentials`. We used the sheet's confirmation, multiple-passkey, conditional-mediation and Signal API columns as independent observations of F13, F12, F18 and F25. We did not use the sheet's attack-result or disclosure columns.
+
+For the joined analysis we used per-site scores extracted from the coloured cells of the original Table 1. The extraction reproduces 27 of the 28 published factor rates exactly. For F28 the printed table gives 90% rather than 91%, a difference that lies in the original figure itself. We coded each website's service type as finance (payments, banking, crypto, accounting, tax or insurance), retail or other (Appendix E). We identified server libraries from the algorithm list a website requests, matching it against the default lists in the go-webauthn and SimpleWebAuthn source code \[22, 23\]. We used Fisher's exact tests, Cohen's κ for agreement between the two audits, and permutation tests (10,000 shuffles) on the original study's adjusted Euclidean distance to test whether websites with the same library or the same configuration have more similar user experience. We applied a Holm correction to the nine primary tests of this stage (Appendix E).
+
+### 3.7 Limitations
+
+This study has several limitations. We did not visit websites or interview developers. Explanations that concern the options a website sends rest on options logged by another team (Section 3.6). Those options were captured around April 2025 for the main passkey flow of each website, so a separate security-key enrollment path, or a change made during the original study's evaluation period, would not appear in them. The joined analysis covers 89 websites, including 14 of the 20 Selective websites, so its cells are small and its confidence intervals wide. Explanations that concern a website's intent, such as risk policy, remain inferences until developers are asked.
 
 One researcher coded the guidance and rated harm, and another author reviewed and accepted the codes; we did not compute inter-rater agreement. Leave-one-source-out analyses reduce, but do not eliminate, the influence of individual coding decisions. The source weights in the consensus score (FIDO 70%, the other four sources 7.5% each) were chosen by the authors; weighting all sources equally gives the same result (ρ = −0.46, p = 0.013). The guidance analysis rests on 28 data points, and the ordinal guidance scores are treated as interval values. The bootstrap interval for our main correlation is correspondingly wide.
 
 We inherit the limitations of the original dataset: one platform (Windows 11 and Chrome), one evaluation period (February 2025 to February 2026), and a sample that over-represents large, English-language services. Website behaviour may have changed since. Because we compare websites against today's FIDO text, some gaps may appear larger than they were when a website was built. False discovery control covers only the 23 confirmatory tests; associations from the exploratory screen that we did not re-test should be read as hypotheses. Finally, all cause codes are best-supported explanations drawn from correlational evidence, not established causal effects.
 
-### 3.7 Ethics Statement
+### 3.8 Ethics Statement
 
-This study analysed publicly released, website-level data and publicly available documents. It involved no human participants, no personal data, and no interaction with the websites studied, so it did not require ethics board review. We do not identify vulnerabilities in individual websites beyond what the original study published, and our findings concern aggregate design patterns.
+This study analysed publicly released, website-level data and publicly available documents. It involved no human participants, no personal data, and no interaction with the websites studied, so it did not require ethics board review. The PASSKEYS-RADAR sheet also records per-site attack results; we excluded those columns from our analysis and from our released data, and we do not associate any website with a vulnerability. We do not identify vulnerabilities in individual websites beyond what the original study published, and our findings concern aggregate design patterns.
 
 ## 4 Results
 
-We first describe how current guidance covers the 28 factors (Section 4.1) and how guidance relates to consistency (Section 4.2). We then re-examine the Selective cluster (Section 4.3), report site-level drivers (Section 4.4), classify the causes of inconsistency by journey stage (Section 4.5), quantify lifecycle security exposure (Section 4.6), and assess which guideline problems contribute to inconsistency (Section 4.7).
+We first describe how current guidance covers the 28 factors (Section 4.1) and how guidance relates to consistency (Section 4.2). We then re-examine the Selective cluster (Section 4.3), report site-level drivers (Section 4.4), classify the causes of inconsistency by journey stage (Section 4.5), quantify lifecycle security exposure (Section 4.6), and assess which guideline problems contribute to inconsistency (Section 4.7). Finally, we test these explanations against independently logged WebAuthn options (Section 4.8).
 
 ### 4.1 Guidance Coverage
 
@@ -170,7 +180,7 @@ Ramat et al. grouped 20 of the 111 websites (18%) into a "Selective Implementers
 
 F09 HSK-Setup and F10 Cross-Device-Setup fail on exactly the same 20 websites (φ = 1.0, q < 0.001), which form the entire Selective cluster. F20 Cross-Device-Usage and F21 HSK-Usage are also identical (φ = 1.0), and their partial matches are defined by the same F09/F10 failure. A single registration-time cause is therefore counted four times in the distance metric. Removing only the duplicates F10 and F21 moves 16 of the 20 Selective websites into the Standard cluster (Appendix D).
 
-The pattern, in which users cannot register a security key or phone but can sign in with either, matches a registration request restricted to the device's own authenticator. This is the effect of `authenticatorAttachment: "platform"`, which Google's checklist recommends for promoted passkey creation and which FIDO's security-key patterns oppose. The cluster is concentrated by sector: 12 of its 20 websites are e-commerce or finance services, so 43% of those two sectors are Selective against 6% of IT websites (odds ratio 12.0, q < 0.001). We conclude that the cluster most likely reflects a technical setting chosen for risk reasons and endorsed by one guidance source. Because we did not observe registration requests, this explanation is supported but not confirmed.
+The pattern, in which users cannot register a security key or phone but can sign in with either, matches a registration request restricted to the device's own authenticator. This is the effect of `authenticatorAttachment: "platform"`, which Google's checklist recommends for promoted passkey creation and which FIDO's security-key patterns oppose. The cluster is concentrated by sector: 12 of its 20 websites are e-commerce or finance services, so 43% of those two sectors are Selective against 6% of IT websites (odds ratio 12.0, q < 0.001). We conclude that the cluster reflects a technical setting chosen for risk reasons and endorsed by one guidance source. The logged registration options confirm the setting directly: 13 of the 14 Selective websites with logged options send `authenticatorAttachment: "platform"` (Section 4.8.1).
 
 ### 4.4 Site Attributes
 
@@ -194,7 +204,7 @@ Web-to-app passkey use (F22) fails on 23 of 62 applicable websites. Its cause is
 
 #### 4.5.4 Deletion
 
-Deletion contains the second unguided security gap, re-authentication before deleting a passkey (F26). Authenticator cleanup (F25) is low because FIDO's removal pattern predates the Signal API, and a website that calls the Signal API is still scored as a non-match. Deletion confirmation (F28) appears converged at 91%, but 83 of 96 applicable websites are only partial matches: nearly all show a confirmation dialog, and almost none warns before the last passkey is removed.
+Deletion contains the second unguided security gap, re-authentication before deleting a passkey (F26). Authenticator cleanup (F25) is low because FIDO's removal pattern predates the Signal API, and a website that calls the Signal API is still scored as a non-match. Deletion confirmation (F28) appears converged at 91%, but 83 of 106 applicable websites are only partial matches: nearly all show a confirmation dialog, and almost none warns before the last passkey is removed.
 
 **Table 4:** Primary cause and harm for the 21 non-converged factors, ordered by harm
 
@@ -202,12 +212,12 @@ Deletion contains the second unguided security gap, re-authentication before del
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | F13 Setup-Authentication | 30% | 0.65 | G: silent in 4 of 5 sources | B, L | Low | **High** | φ = 0.73 with F26; 0 of 6 auth providers |
 | F26 Deletion-Authentication | 30% | 0.67 | G: silent in all sources | B, L | Low | **High** | 70 of 108 websites do neither |
-| F09 HSK-Setup | 82% | 0.43 | T: platform-only registration | B, G | **High** | Low | φ = 1.0 with F10; sector OR = 12 |
-| F10 Cross-Device-Setup | 82% | 0.43 | T: same as F09 | B, G | **High** | Low | Identical to F09 |
+| F09 HSK-Setup | 82% | 0.43 | T: platform-only registration | B, G | **High** | Low | 13 of 14 logged Selective sites send `platform`; finance OR = 6.4 |
+| F10 Cross-Device-Setup | 82% | 0.43 | T: same as F09 | B, G | **High** | Low | Identical to F09 on all 111 sites |
 | F22 Mobile-App-Usage | 63% | 0.60 | T: associated domains, RP ID | L | **High** | Low | 23 of 62 fail |
-| F25 Authenticator-Cleanup | 23% | 0.49 | G: predates Signal API | P, M | Medium | Low | Signal API in Chrome 132 |
+| F25 Authenticator-Cleanup | 23% | 0.49 | G: predates Signal API | P, M | Medium | Low | 2 of 5 Signal API sites scored non-match |
 | F07 OTP-Setup | 7% | 0.24 | G: no automatic-upgrade pattern | P, M | Medium | Low | 27 applicable websites |
-| F28 Deletion-Confirmation | 91% | 0.61 | G: last-passkey case unspecified | M | Medium | Low | 83 of 96 partial |
+| F28 Deletion-Confirmation | 91% | 0.61 | G: last-passkey case unspecified | M | Medium | Low | 83 of 106 partial |
 | F18 Autofill-Feature | 42% | 0.62 | L: identifier-first login | T, P | Medium | Low | Recommended by 3 sources |
 | F04 Educational-Resources | 51% | 0.77 | B: help-centre maturity | G | Medium | Low | Rank q = 0.032 |
 | F14 Setup-Notification | 80% | 0.45 | L: security-email pipeline | G | Low | Medium | Rank q = 0.001 |
@@ -228,6 +238,8 @@ Deletion contains the second unguided security gap, re-authentication before del
 
 Of the 108 websites where both factors apply, 70 (65%) re-authenticate users neither when a passkey is added nor when one is deleted, and only 26 do both. Re-authentication is all-or-nothing per website (F13 and F26 agree on 96 of 108 websites, φ = 0.73), which indicates a site-wide step-up policy rather than a passkey-specific decision. Even the six authentication-provider websites, whose business is passkeys, re-authenticate for neither action. On 12 websites there is no re-authentication and no notification for either action. On these websites, anyone with brief session access could register their own passkey for persistent access or delete the owner's passkeys without the owner being informed, the persistence and lock-out risk raised by Ramat et al. \[1\] and Daffalla et al. \[13\].
 
+The independent data show the same gap. In Jannett et al.'s logs, 67% of the 89 joined websites add a passkey without any password, email, SMS or passkey confirmation, and the five authentication-provider websites with logged options all add one without confirmation. Across all 208 implementations they evaluated, 66% required no extra confirmation \[20\]. Two teams measuring at different times with different methods therefore reach the same conclusion about passkey addition.
+
 ### 4.7 Guideline Problems and Their Contribution
 
 We counted a guideline problem as contributing to inconsistency only when the data show a matching inconsistency and no stronger cause explains it better (Table 5). Of the twelve problems we identified, the missing lifecycle guidance and the attachment conflict contribute most clearly. Two apparent gaps are not attributable to the guidelines: web-to-app use (F22) is well covered by platform documentation, and passkey sign-up (F06) is avoided for recovery-risk reasons that stronger text would not change.
@@ -239,17 +251,69 @@ We counted a guideline problem as contributing to inconsistency only when the da
 | No MUST/SHOULD language; patterns can be combined "to match your unique business needs" | Structural | All | Yes, moderately | FIDO alone ρ = −0.36; F02, F18 low despite recommendation |
 | No versioning or changelog | Structural | All | Indirectly | Original June 2023 text cannot be reproduced |
 | Notification guidance in a separate communications page | Structural | F14, F16, F27 | Weakly | Notification follows site maturity |
-| Re-authentication for adding or deleting not mentioned | Missing | F13, F26 | Yes, strongly | 65% do neither; 0 of 6 auth providers |
+| Re-authentication for adding or deleting not mentioned | Missing | F13, F26 | Yes, strongly | 65% do neither; 67% add without confirmation in independent logs |
 | No identity-proofing level for recovery | Missing | F11 | Partly | Risk policy is the stronger cause |
-| Card contents and last-passkey behaviour unspecified | Missing | F23, F28 | Yes, for F28 | 83 of 96 partial |
+| Card contents and last-passkey behaviour unspecified | Missing | F23, F28 | Yes, for F28 | 83 of 106 partial |
 | No automatic-upgrade pattern | Outdated | F01, F06, F07 | Yes, with timing | Supported by Safari 18 and Chrome 136 |
-| Removal pattern predates the Signal API | Outdated | F25 | Yes, with measurement | 23%; Signal API available |
+| Removal pattern predates the Signal API | Outdated | F25 | Yes, with measurement | 23%; 5 of 89 logged sites call the Signal API |
 | Security-key patterns framed as 2FA | Outdated | F03, F09, F21 | Partly | Sector explains more |
 | "Above" vs "alongside" passwords | Conflict | F02 | Yes | Recommended yet 36% |
-| Security-key option vs platform-only advice | Conflict | F09, F10 | Yes | Selective cluster |
-| Dedicated button discouraged, autofill unavailable on some clients | Ambiguous | F17, F18 | Yes | φ = −0.41 |
+| Security-key option vs platform-only advice | Conflict | F09, F10 | Yes, strongly | 13 of 14 logged Selective sites send `platform` |
+| Dedicated button discouraged, autofill unavailable on some clients | Ambiguous | F17, F18 | Yes | φ = −0.41; autofill coding confirmed (κ = 0.89) |
 
 Browser timing also matters. The Signal API shipped in Chrome 132 \[10\], and conditional create shipped in Chrome 136 on desktop in spring 2025 \[9\], at or near the start of the evaluation period. Appendix C lists the dates.
+
+### 4.8 Testing the Explanations with Logged WebAuthn Options
+
+The logged options confirm the registration-setting explanation, locate it in sector risk policy rather than in server libraries, and corroborate several of the measurements the cause classification relies on (Table 7).
+
+#### 4.8.1 Platform-Only Registration
+
+Almost every website that fails F09 and F10 restricts registration to `authenticatorAttachment: "platform"`, and almost every website that does not restrict it passes (Table 6). Of the 64 websites without the restriction, 63 support security-key registration. The restriction separates the clusters: 13 of the 14 Selective websites with logged options send it, against 12 of the 74 Standard websites (odds ratio 68, Holm-adjusted p < 0.001; Figure 4). None of the Selective websites uses the newer `hints` member; only one website in the joined set does.
+
+**Table 6:** Registration attachment and security-key registration (F09) on the 89 websites with logged options
+
+| Registration attachment | F09 match | F09 non-match | Match rate |
+| --- | --- | --- | --- |
+| `platform` (restricted) | 12 | 13 | 48% |
+| Not restricted (unset or `cross-platform`) | 63 | 1 | 98% |
+
+The restriction is close to necessary for the Selective pattern but not sufficient. Twelve Standard websites send `platform` in their main passkey flow yet still support security-key registration, Google among them. These websites appear to offer a second, unrestricted enrollment path, such as a separate security-key option in account settings, which a single logged registration call cannot show. The Selective pattern is therefore best described as a restricted main flow with no alternative path. This is exactly the combination that recommendation R3 targets.
+
+&#91;embedded content: Figure 4: Platform-only registration by cluster and by sector\]
+
+#### 4.8.2 Restricted Registration, Open Sign-In
+
+Selective websites restrict registration but not sign-in. Eleven of the 14 send a sign-in request with an empty `allowCredentials` list or without transports, so the browser offers every authenticator type, including the security keys and phones that registration refused. This produces the partial matches on F20 and F21 that Section 4.3 identified as a measurement artefact. Ramat et al. suggested that libraries expose authenticator transports in `allowCredentials` without matching enrollment flows \[1\]. Only three of the 14 websites list transports at all, so the more likely explanation is that developers set the restriction on the registration call alone and leave the sign-in call at its default.
+
+#### 4.8.3 Sector Risk Posture
+
+The restriction is concentrated in finance. Ten of 16 finance websites with logged options restrict registration to platform authenticators, against 15 of 73 other websites (odds ratio 6.4, Holm-adjusted p = 0.011), and 13 of 16 require user verification at registration, against 32 of 73 (odds ratio 5.6, Holm-adjusted p = 0.045). The result holds when the three most ambiguous finance labels are removed (odds ratio 6.2, p = 0.005). Seven of the 14 logged Selective websites are finance websites and two are retail. Restricting registration to biometric-verified platform authenticators is the setting a fraud team would choose, which supports the business-decision code (B) we assigned as a secondary cause of F09 and F10. Intent itself cannot be observed in the logs.
+
+#### 4.8.4 Server Libraries
+
+Server libraries leave a visible fingerprint but do not explain user-experience differences. The algorithm list of 14 websites matches the go-webauthn default exactly, and that of 9 websites matches the SimpleWebAuthn default \[22, 23\]. Websites that share a library default are no more alike in user experience than random pairs (permutation p = 0.29, and p = 0.52 without the four F09/F10/F20/F21 factors). The registration restriction is not a library default either: 19 of the 23 library-default websites leave attachment unset, and 22 of the 25 restricted websites use neither default list. Websites with an identical full configuration appear more alike (p = 0.003), but the effect shrinks once the four security-key factors are removed and disappears when Dinero, which is owned by Visma and shares its configuration, is dropped (p = 0.27). We therefore read user-experience choices as product decisions made above the library layer.
+
+#### 4.8.5 Agreement Between Audits and Corroboration
+
+Where the two teams observed the same behaviour, they agree strongly on autofill and moderately elsewhere (Table 7). The five websites on which they disagree about autofill may have changed between the two audit windows. Two of the five websites that call the Signal API were scored as non-matches on F25, which supports our classification of part of F25's low rate as a measurement artefact. Website popularity does not predict overall conformity (ρ = −0.12, p = 0.25), and discoverable credentials show only a weak, non-significant association with autofill (p = 0.10).
+
+**Table 7:** Tests of the explanations against logged WebAuthn options (89 websites; Holm correction over nine primary tests, Appendix E)
+
+| Test | Result | Holm p | Verdict |
+| --- | --- | --- | --- |
+| Platform-only registration vs F09/F10 | 48% vs 98% support security-key registration | < 0.001 | Confirmed |
+| Selective cluster vs platform-only registration | 13 of 14 vs 12 of 74 | < 0.001 | Confirmed |
+| Selective sign-in left open | 11 of 14 send no transport restriction | descriptive | Confirmed |
+| Finance vs platform-only registration | 10 of 16 vs 15 of 73 | 0.011 | Supported |
+| Finance vs required user verification | 13 of 16 vs 32 of 73 | 0.045 | Supported |
+| Same library default, similar UX | within − between = −0.016 | 0.49 | Rejected |
+| Identical configuration, similar UX | not robust to one ownership pair | 0.015 | Not robust |
+| Discoverable credentials vs autofill (F18) | 36 of 73 vs 4 of 16 | 0.30 | Not supported |
+| Popularity vs overall conformity | ρ = −0.12 | 0.49 | Not supported |
+| Audit agreement: F18 vs conditional mediation | κ = 0.89, 94% agree | – | Strong |
+| Audit agreement: F12 vs multiple passkeys | κ = 0.55, 97% agree | – | Moderate |
+| Audit agreement: F13 vs confirmation step | κ = 0.54, 80% agree | – | Moderate |
 
 ## 5 Discussion
 
@@ -257,67 +321,73 @@ Browser timing also matters. The Signal API shipped in Chrome 132 \[10\], and co
 
 Our findings show that passkey inconsistency has several causes, and that guidelines are one of them rather than the main one. Agreement among guidance sources explains a moderate share of the variation across factors. Within factors, sector risk policy, website maturity and browser defaults explain more. The most valuable change to the guidelines is therefore not more patterns. It is clearer force on a small number of safety-relevant patterns, because that is where weak guidance and real harm coincide.
 
+The logged options sharpen this picture in three ways. First, the largest single source of measured inconsistency, the Selective cluster, is one option in one call: a registration request restricted to platform authenticators, paired with a sign-in request left open. Second, that option follows sector risk policy and is set deliberately, not inherited from a library default. Third, websites built on the same library differ as much in user experience as any two websites. Together these results point guidance at the product teams who choose options and design flows, rather than at library maintainers alone.
+
 Not all inconsistency is undesirable. Finance websites that refuse passkey-only accounts, or that refuse to issue a passkey through a recovery flow, are making a defensible security trade-off, and a guideline that forced uniformity would lower security. Our harm classification separates these cases so that recommendations target only harmful variance. We do not recommend standardising passkey sign-up (F06), passkey creation during recovery (F11) or passkey renaming (F15).
 
 ### 5.2 Recommendations for the FIDO Alliance Design Guidelines
 
-Table 6 lists ten recommendations for the FIDO Alliance. Priority 1 marks a high-harm factor with a guideline cause, priority 2 a medium-harm factor or a measured conflict, and priority 3 clarity and maintenance. The most important is a lifecycle-security pattern (R1), because it addresses the only high-harm gap that no guidance source covers.
+Table 8 lists ten recommendations for the FIDO Alliance. Priority 1 marks a high-harm factor with a guideline cause, priority 2 a medium-harm factor or a measured conflict, and priority 3 clarity and maintenance. We grade each recommendation by the strength of its evidence. **Strong** means confirmed by both datasets, or by a test on the logged options that survives Holm correction. **Moderate** means a significant test or consistent descriptive evidence in one dataset. **Weak** means small numbers, timing evidence or documentary evidence only. The most important recommendation is a lifecycle-security pattern (R1), because it addresses the only high-harm gap that no guidance source covers and both datasets show it.
 
-**Table 6:** Recommendations for the FIDO Alliance
+**Table 8:** Recommendations for the FIDO Alliance
 
-| # | Priority | Recommendation | Factors | Evidence |
-| --- | --- | --- | --- | --- |
-| R1 | 1 | Add a lifecycle-security pattern: require recent user verification before adding or deleting a passkey, with a short grace period after sign-in, and an out-of-band notification for both actions | F13, F26, F14, F27 | 65% do neither; 0 of 6 auth providers |
-| R2 | 1 | Adopt normative strength labels (MUST, SHOULD, MAY) per pattern element, and separate safety-relevant elements from brand choices | All | Consensus ρ = −0.45 vs FIDO alone −0.36 |
-| R3 | 1 | Resolve the attachment conflict: registration should not restrict `authenticatorAttachment` without a documented reason, and a restricted promoted prompt must be paired with an unrestricted option in settings | F09, F10, F20, F21 | Selective cluster; sector OR = 12 |
-| R4 | 2 | Add an automatic-upgrade pattern (conditional create after password or OTP sign-in), including the capability check WebAuthn Level 3 asks for | F01, F06, F07 | Safari 18, Chrome 136; FIDO silent |
-| R5 | 2 | Update the removal pattern to use the Signal API, with the manual credential-manager message as a fallback | F25 | 23%; Signal API since Chrome 132 |
-| R6 | 2 | Specify the last-passkey case: warn and name the remaining fallback; block deletion only when no other sign-in method remains | F28 | 83 of 96 partial |
-| R7 | 2 | Agree one priority rule with platform vendors for passkeys relative to passwords and 2FA | F02 | 36%; FIDO vs Google conflict |
-| R8 | 2 | Clarify button versus autofill: autofill as the primary path, a button as a fallback for clients without conditional mediation | F17, F18 | φ = −0.41 |
-| R9 | 3 | Publish versioned guidelines with a changelog and dated snapshots | All | No version numbers since 2022 |
-| R10 | 3 | Merge notification templates into their patterns and rewrite security-key patterns as passkey patterns | F03, F14, F16, F27 | Split text; 2022 framing |
+| # | Priority | Recommendation | Factors | Evidence | Strength |
+| --- | --- | --- | --- | --- | --- |
+| R1 | 1 | Add a lifecycle-security pattern: require recent user verification before adding or deleting a passkey, with a short grace period after sign-in, and an out-of-band notification for both actions | F13, F26, F14, F27 | 65% do neither; 67% add without confirmation in independent logs; 0 of 6 auth providers | Strong |
+| R2 | 1 | Adopt normative strength labels (MUST, SHOULD, MAY) per pattern element, and separate safety-relevant elements from brand choices | All | Consensus ρ = −0.45 vs FIDO alone −0.36 | Moderate |
+| R3 | 1 | Add a restricted-registration rule: registration may restrict `authenticatorAttachment` for a documented risk reason, but must then offer an unrestricted enrollment path in settings, or restrict and explain sign-in in the same way | F09, F10, F20, F21 | 13 of 14 logged Selective sites restrict; 12 restricted sites with a second path pass F09; finance OR = 6.4 | Strong |
+| R4 | 2 | Add an automatic-upgrade pattern (conditional create after password or OTP sign-in), including the capability check WebAuthn Level 3 asks for | F01, F06, F07 | Safari 18, Chrome 136; FIDO silent; 27 applicable sites | Weak |
+| R5 | 2 | Update the removal pattern to use the Signal API, with the manual credential-manager message as a fallback | F25 | 23%; 5 of 89 logged sites call the Signal API | Moderate |
+| R6 | 2 | Specify the last-passkey case: warn and name the remaining fallback; block deletion only when no other sign-in method remains | F28 | 83 of 106 partial | Moderate |
+| R7 | 2 | Agree one priority rule with platform vendors for passkeys relative to passwords and 2FA | F02 | 36%; FIDO vs Google conflict | Moderate |
+| R8 | 2 | Clarify button versus autofill: autofill as the primary path, a button as a fallback for clients without conditional mediation | F17, F18 | φ = −0.41; autofill coding confirmed (κ = 0.89) | Moderate |
+| R9 | 3 | Publish versioned guidelines with a changelog and dated snapshots | All | No version numbers since 2022 | Weak |
+| R10 | 3 | Merge notification templates into their patterns and rewrite security-key patterns as passkey patterns | F03, F14, F16, F27 | Split text; 2022 framing | Weak |
+
+R3 replaces our earlier wording, which asked websites not to restrict attachment without a documented reason. The logged options show that the restriction is a deliberate choice, concentrated in finance, and that twelve websites already combine it with a second enrollment path and pass F09. The guideline should therefore regulate the combination, not forbid the option.
 
 ### 5.3 Recommendations for Websites and Platforms
 
-Website developers can address most harmful inconsistencies without waiting for revised guidance (Table 7). Platform, browser and library vendors control the defaults that drive much of the convergence we observed, so changes there would propagate to many websites at once (Table 8).
+Website developers can address most harmful inconsistencies without waiting for revised guidance (Table 9). Platform, browser and identity-provider vendors control defaults that many websites inherit (Table 10). We do not ask server libraries to change user-experience defaults, because websites on the same library differ as much as any others (Section 4.8.4).
 
-**Table 7:** Recommended practices for website developers
+**Table 9:** Recommended practices for website developers
 
-| # | Practice | Factors | Rationale |
-| --- | --- | --- | --- |
-| W1 | Require fresh user verification before adding or removing a passkey, reusing the existing step-up policy | F13, F26 | Prevents session-hijack persistence and lock-out |
-| W2 | Notify the account owner of every passkey addition and deletion, with a "this wasn't me" path | F14, F27 | Detection when W1 fails |
-| W3 | If a promoted prompt uses `authenticatorAttachment: "platform"`, keep an unrestricted option in settings | F09, F10 | Registration should accept what sign-in accepts |
-| W4 | Add `autocomplete="webauthn"` and conditional mediation to the first identifier field, including identifier-first and hosted pages | F18 | Recommended by three sources; 42% today |
-| W5 | Call the Signal API after deletion and on unknown-credential errors, with a manual message as fallback | F25 | Removes orphaned credentials |
-| W6 | Publish associated-domain files and use one RP ID across web and app | F22 | 23 of 62 fail web-to-app use |
-| W7 | Warn before the last passkey is deleted and name the remaining method | F28 | Prevents unexpected lock-out |
-| W8 | Use automatic upgrades after password sign-in instead of additional banners | F01, F07 | Fewer prompts, more passkeys |
-| W9 | Name passkeys automatically from the authenticator's AAGUID; offer renaming as a secondary action | F15 | Legitimate variance |
+| # | Practice | Factors | Rationale | Strength |
+| --- | --- | --- | --- | --- |
+| W1 | Require fresh user verification before adding or removing a passkey, reusing the existing step-up policy | F13, F26 | Prevents session-hijack persistence and lock-out; gap confirmed in both datasets | Strong |
+| W2 | Notify the account owner of every passkey addition and deletion, with a "this wasn't me" path | F14, F27 | Detection when W1 fails; 12 sites have neither | Moderate |
+| W3 | If registration uses `authenticatorAttachment: "platform"`, keep an unrestricted option in settings, or apply and explain the same restriction at sign-in | F09, F10, F20, F21 | 11 of 14 Selective sites leave sign-in open; Google and 11 others show the two-path design works | Strong |
+| W4 | Add `autocomplete="webauthn"` and conditional mediation to the first identifier field, including identifier-first and hosted pages | F18 | Recommended by three sources; 42% today | Moderate |
+| W5 | Call the Signal API after deletion and on unknown-credential errors, with a manual message as fallback | F25 | 5 of 89 logged sites use it; removes orphaned credentials | Moderate |
+| W6 | Publish associated-domain files and use one RP ID across web and app | F22 | 23 of 62 fail web-to-app use; cause not verified in our data | Weak |
+| W7 | Warn before the last passkey is deleted and name the remaining method | F28 | Prevents unexpected lock-out; 83 of 106 partial | Moderate |
+| W8 | Use automatic upgrades after password sign-in instead of additional banners | F01, F07 | Fewer prompts, more passkeys; 27 applicable sites | Weak |
+| W9 | Name passkeys automatically from the authenticator's AAGUID; offer renaming as a secondary action | F15 | Legitimate variance | Weak |
 
-**Table 8:** Requests to platform, browser and library vendors
+**Table 10:** Requests to platform, browser and identity-provider vendors
 
-| # | Request | Factors | Rationale |
-| --- | --- | --- | --- |
-| P1 | Library and identity-provider defaults should not restrict attachment, and should ship autofill, notification hooks and a re-authentication gate for credential changes | F09, F10, F13, F18, F26 | Defaults predict consistency (β = −0.50) |
-| P2 | Implement the Signal API in Firefox and on all Safari platforms | F25 | Chrome-only for most of the evaluation period |
-| P3 | Qualify Google's platform-only attachment recommendation in line with R3 | F09, F10 | Source conflict |
-| P4 | Offer the same authenticator choices at registration and sign-in when the RP does not restrict them | F09, F10, F20, F21 | Mismatch confuses users |
+| # | Request | Factors | Rationale | Strength |
+| --- | --- | --- | --- | --- |
+| P1 | Identity providers should ship a re-authentication gate and notification hooks for credential changes, enabled by default | F13, F26, F14, F27 | None of the 6 authentication-provider sites re-authenticates; 5 of 5 add without confirmation in independent logs | Strong |
+| P2 | Implement the Signal API in Firefox and on all Safari platforms | F25 | Chrome-only for most of the evaluation period | Weak |
+| P3 | Qualify Google's platform-only attachment recommendation in line with R3 | F09, F10 | Source conflict; restriction confirmed on 13 of 14 logged Selective sites | Strong |
+| P4 | Platform guidance should show restricted relying parties how to send the same `hints` at sign-in as at registration, so both dialogs offer the same authenticator choices | F09, F10, F20, F21 | Open sign-in on 11 of 14 Selective sites; none of them uses `hints` | Moderate |
+
+P1 replaces an earlier request that library defaults should not restrict attachment. The logged options show that restriction is set deliberately and is not a library default, so that request was not supported by evidence.
 
 ### 5.4 Implications for the Comparative Framework
 
-The original framework overstates some inconsistency. Four factors encode one registration cause, and three are scored against guidance that has since changed or was misattributed: F04 is labelled as having no FIDO source although the account-settings pattern contains it, F17 is scored as required although FIDO now discourages it, and F27 requires an email or push notification although its cited source is an in-app message. We recommend that replication studies merge F09 with F10 and F20 with F21, credit a Signal API call as a match for F25, split F28 into a confirmation dialog and a last-passkey warning, and report entropy alongside implementation rate. With these changes, longitudinal comparisons would measure website behaviour rather than rubric structure.
+The original framework overstates some inconsistency. Four factors encode one registration cause, and three are scored against guidance that has since changed or was misattributed: F04 is labelled as having no FIDO source although the account-settings pattern contains it, F17 is scored as required although FIDO now discourages it, and F27 requires an email or push notification although its cited source is an in-app message. We recommend that replication studies merge F09 with F10 and F20 with F21, credit a Signal API call as a match for F25, split F28 into a confirmation dialog and a last-passkey warning, and report entropy alongside implementation rate. Replication studies should also log the WebAuthn options behind each journey. A single logged registration call explained the largest cluster in the original data, and it would let future audits separate a missing feature from a deliberate restriction. With these changes, longitudinal comparisons would measure website behaviour rather than rubric structure.
 
 ### 5.5 Future Work
 
-Three studies would turn our supported explanations into confirmed ones. First, logging the registration options sent by the 20 Selective websites and a set of Standard controls would directly test the platform-only explanation in Section 4.3. Second, a developer survey could establish why re-authentication for passkey changes is so rarely implemented, and whether a FIDO pattern would change that decision. Third, a user study could measure how much confusion arises when registration and sign-in support different authenticators, and whether lifecycle notifications help users detect unauthorised passkey changes. Repeating our analysis on the next version of the FIDO guidelines would also show whether stronger guidance increases consistency over time.
+Three studies would turn our remaining supported explanations into confirmed ones. First, a short manual check would complete the platform-only analysis: whether the twelve restricted websites that pass F09 offer a second enrollment path, and which options the six Selective websites without logged options send. Our repository includes a protocol for this check. Second, a developer survey could establish why re-authentication for passkey changes is so rarely implemented, whether a FIDO pattern would change that decision, and whether finance teams restrict registration for the risk reasons our data suggest. Third, a user study could measure how much confusion arises when registration and sign-in support different authenticators, and whether lifecycle notifications help users detect unauthorised passkey changes. Repeating our analysis on the next version of the FIDO guidelines would also show whether stronger guidance increases consistency over time.
 
 ## 6 Conclusion
 
-Passkeys promise a consistent, phishing-resistant sign-in experience, but their implementations diverge across websites. In this study, we explained why, using the per-site data of a 111-website, 28-factor evaluation and a structured coding of five guidance sources. Where guidance sources agree, websites converge; where guidance is silent, non-normative, outdated or contradictory, they diverge. Much of the remaining variation reflects browser defaults, legacy login and notification systems, and deliberate risk decisions in finance and commerce, and part of it reflects the original rubric itself.
+Passkeys promise a consistent, phishing-resistant sign-in experience, but their implementations diverge across websites. In this study, we explained why, using the per-site data of a 111-website, 28-factor evaluation and a structured coding of five guidance sources. Where guidance sources agree, websites converge; where guidance is silent, non-normative, outdated or contradictory, they diverge. Much of the remaining variation reflects browser defaults, legacy login and notification systems, and deliberate risk decisions in finance and commerce, and part of it reflects the original rubric itself. Independently logged WebAuthn options confirm the most consequential of these explanations: a cluster of websites restricts registration to the device's own authenticator while leaving sign-in open, a choice that follows sector risk policy rather than library defaults.
 
-The differences that matter most are few. Passkey addition and deletion are unprotected by re-authentication on 65% of websites, and some websites refuse to register the same authenticators they accept at sign-in. Both can be addressed with a small number of normative, versioned changes to the FIDO Alliance Design Guidelines and matching changes to library defaults, without restricting legitimate product decisions. We hope our cause-and-harm framework helps guideline authors, implementers and researchers focus on the inconsistencies that harm users.
+The differences that matter most are few. Passkey addition and deletion are unprotected by re-authentication on 65% of websites, and some websites refuse to register the same authenticators they accept at sign-in. Both can be addressed with a small number of normative, versioned changes to the FIDO Alliance Design Guidelines and matching identity-provider defaults, without restricting legitimate product decisions. We hope our cause-and-harm framework helps guideline authors, implementers and researchers focus on the inconsistencies that harm users.
 
 ## Acknowledgments
 
@@ -325,7 +395,7 @@ We thank our supervisor, Shweta Komari, for guidance and feedback throughout thi
 
 ## Availability
 
-Our analysis scripts, outputs, figures and the LaTeX source of this paper are available at <https://github.com/devsinghshekhawat11/passkeys-analysis>. The website-level dataset is the supplementary material of Ramat et al., available at <https://zenodo.org/records/20709272>.
+Our analysis scripts, outputs, figures and the LaTeX source of this paper are available at <https://github.com/devsinghshekhawat11/passkeys-analysis>. The website-level dataset is the supplementary material of Ramat et al., available at <https://zenodo.org/records/20709272>; the repository also contains the per-site scores extracted from their Table 1 (CC BY 4.0). The logged WebAuthn options come from the PASSKEYS-RADAR artifacts of Jannett et al. at <https://github.com/RUB-NDS/state-of-passkeys-artifacts> (Apache-2.0); our repository includes the subset for the 111 websites, without attack results.
 
 ## References
 
@@ -348,6 +418,10 @@ Our analysis scripts, outputs, figures and the LaTeX source of this paper are av
 17. Nicolas Huaman, Sabrina Klivan, Marten Oltrogge, Yasemin Acar, and Sascha Fahl. They would do better if they worked together: The case of interaction problems between password managers and websites. In IEEE Symposium on Security and Privacy, pages 1367–1381, 2021.
 18. Yoav Benjamini and Yosef Hochberg. Controlling the false discovery rate: A practical and powerful approach to multiple testing. Journal of the Royal Statistical Society: Series B, 57(1):289–300, 1995.
 19. Nielsen Norman Group. Maintain consistency and adhere to standards, January 2021. URL: https://www.nngroup.com/articles/consistency-and-standards/.
+20. Louis Jannett, Andreas Mayer, Maximilian Westers, Vladislav Mladenov, Christian Mainka, and Jörg Schwenk. The state of passkeys: Studying the adoption and security of passkeys on the web. In 35th USENIX Security Symposium, August 2026. Artifacts: <https://github.com/RUB-NDS/state-of-passkeys-artifacts>. URL: <https://www.usenix.org/conference/usenixsecurity26/presentation/jannett>.
+21. Prince Bhardwaj and Nishanth Sastry. State of passkey authentication in the wild: A census of the top 100K sites. In Passive and Active Measurement (PAM), Lecture Notes in Computer Science, pages 319–347. Springer, 2026. URL: <https://arxiv.org/abs/2602.15135>.
+22. go-webauthn contributors. go-webauthn: CredentialParametersDefault, webauthn/registration\_credential\_parameters.go. Accessed 2026-11-23. URL: <https://github.com/go-webauthn/webauthn>.
+23. SimpleWebAuthn contributors. SimpleWebAuthn: generateRegistrationOptions, default supportedAlgorithmIDs. Accessed 2026-11-23. URL: <https://github.com/MasterKale/SimpleWebAuthn>.
 
 ## A Guidance Codebook
 
@@ -368,7 +442,7 @@ Each source was coded at the strength of its strongest statement relevant to the
 
 ## B Statistical Tests
 
-**Table 9:** Confirmatory website-level tests with Benjamini-Hochberg correction (23 tests). Co-occurrence and sector tests use Fisher's exact test; rank tests use Mann-Whitney U.
+**Table 11:** Confirmatory website-level tests with Benjamini-Hochberg correction (23 tests). Co-occurrence and sector tests use Fisher's exact test; rank tests use Mann-Whitney U.
 
 | Test | p | q | Significant |
 | --- | --- | --- | --- |
@@ -398,7 +472,7 @@ Each source was coded at the strength of its strongest statement relevant to the
 
 ## C Browser Feature Timeline
 
-**Table 10:** Availability of WebAuthn features that several factors depend on, relative to the February 2025 to February 2026 evaluation period
+**Table 12:** Availability of WebAuthn features that several factors depend on, relative to the February 2025 to February 2026 evaluation period
 
 | Feature | Factors | Chrome | Safari | Firefox | Status at evaluation |
 | --- | --- | --- | --- | --- | --- |
@@ -410,9 +484,9 @@ Each source was coded at the strength of its strongest statement relevant to the
 
 ## D Cluster Sensitivity
 
-We re-ran the original average-linkage clustering on modified factor sets. Table 11 shows where the original clusters' websites move.
+We re-ran the original average-linkage clustering on modified factor sets. Table 13 shows where the original clusters' websites move.
 
-**Table 11:** Cluster membership under alternative factor sets (original cluster sizes 89 / 20 / 2)
+**Table 13:** Cluster membership under alternative factor sets (original cluster sizes 89 / 20 / 2)
 
 | Factor set | Original Standard (89) | Original Selective (20) | Original Experimental (2) |
 | --- | --- | --- | --- |
@@ -420,3 +494,28 @@ We re-ran the original average-linkage clustering on modified factor sets. Table
 | Without duplicates F10, F21 | 89 stay together | 4 remain Selective, 16 join Standard | 2 stay together |
 | Without duplicates and with F20 partials recoded | Same as above | 4 remain, 16 join Standard | 2 stay together |
 | Without the 10 factors at 90% or more | Splits into 62, 26 and 1 | 15 group with the 26 Standard websites, 5 join the 62 | Both join the 62-website group |
+
+## E Joined Analysis Details
+
+**Matching.** All 111 websites matched a PASSKEYS-RADAR row. Where several rows share a domain we used the analysable row of the main product (for example the Bitwarden vault rather than its community forum). The 22 websites without logged options are listed in the repository output `a13_output.txt`; six are Selective (Shop, Konami, Cash App, Free Tax USA, Syncfusion, Lowe's).
+
+**Service-type coding.** Finance (19 websites): Stripe, Coinbase, Square, Luno, Moneybird, Dinero, Visma, Finom, PayPal, SumUp, Money Forward, Cash App, Link, Free Tax USA, Webull, Binance, Marshmallow, Turnkey and DEXT. Retail (10): Amazon, eBay, Shopify, Target, Best Buy, Shop, Lowe's, Micro Center, Migros and Hard Wax. All other websites are coded as other. Turnkey, Marshmallow and DEXT are the least certain finance labels; removing them leaves the finance result unchanged. This coding was made for the joined analysis and is coarser than the sector variable used in Section 4.4.
+
+**Library fingerprints.** go-webauthn's `CredentialParametersDefault()` requests ES256, ES384, ES512, RS256, RS384, RS512, PS256, PS384, PS512 and EdDSA in that order; SimpleWebAuthn's default `supportedAlgorithmIDs` is EdDSA, ES256, RS256. An exact match is consistent with the named library but does not prove it, because another library can copy the same list.
+
+**Primary tests.** The Holm correction covers nine tests: platform-only registration vs F09; Selective cluster vs platform-only registration; finance vs platform-only registration; finance vs required user verification; finance or retail vs platform-only registration; discoverable credentials vs F18; same library default vs UX similarity; identical configuration vs UX similarity; popularity vs conformity. F10 is not tested separately because it is identical to F09 on all 111 websites.
+
+**Table 14:** Primary tests of the joined analysis with Holm correction (89 websites)
+
+| Test | p | Holm p | Significant |
+| --- | --- | --- | --- |
+| Platform-only registration vs F09 | 4.4e-08 | 4.0e-07 | Yes |
+| Selective cluster vs platform-only registration | 4.4e-08 | 4.0e-07 | Yes |
+| Finance vs platform-only registration | 0.0016 | 0.011 | Yes |
+| Identical configuration vs UX similarity | 0.0025 | 0.015 | Yes, not robust |
+| Finance or retail vs platform-only registration | 0.0059 | 0.030 | Yes |
+| Finance vs required user verification | 0.011 | 0.045 | Yes |
+| Discoverable credentials vs F18 | 0.099 | 0.30 | No |
+| Popularity vs overall conformity | 0.25 | 0.49 | No |
+| Same library default vs UX similarity | 0.29 | 0.49 | No |
+
