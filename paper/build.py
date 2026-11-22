@@ -42,7 +42,7 @@ SMALL={'2','4','5','7','8'}
 FIG={'1':('fig1.pdf',True,'Methodology overview.'),
      '2':('fig2.pdf',False,'Guidance consensus and inconsistency across the 28 factors. Dashed line: least-squares trend.'),
      '3':('fig3.pdf',False,'Inconsistency and harm of the 21 non-converged factors, coloured by primary cause. Rings mark security harm.'),
-     '4':('fig4.pdf',False,'Share of websites whose logged registration request sets \\texttt{authenticatorAttachment: "platform"}, by original cluster (left) and by service type (right). 89 websites with logged options.')}
+     '4':('fig4.pdf',False,'Share of websites whose logged registration request sets \\texttt{authenticatorAttachment: "platform"}, by original cluster (left) and by sector from the dataset Category column (right). 89 websites with logged options.')}
 
 out=[]; i=0
 def raw(t): out.append('\n```{=latex}\n'+t+'\n```\n')

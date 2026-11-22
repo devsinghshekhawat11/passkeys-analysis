@@ -27,17 +27,17 @@ true
 == H2_selective_F21_codes
 {"2": 12, "1": 2}
 == H3_finance_vs_platform
-{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[10, 6], [15, 58]], "odds_ratio": 6.444, "p": 0.001601031518419999}
+{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[6, 5], [19, 59]], "odds_ratio": 3.726, "p": 0.0670519947311973}
 == H3_finance_vs_uv_required
-{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[13, 3], [32, 41]], "odds_ratio": 5.552, "p": 0.011341520879109683}
-== H3_finance_or_retail_vs_platform
-{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[12, 11], [13, 53]], "odds_ratio": 4.448, "p": 0.0059234356574868535}
-== H3_finance_vs_platform_without_ambiguous_labels
-{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[8, 5], [15, 58]], "odds_ratio": 6.187, "p": 0.004574247012328495}
+{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[9, 2], [36, 42]], "odds_ratio": 5.25, "p": 0.04956222089625681}
+== H3_finance_or_ecommerce_vs_platform
+{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[10, 12], [15, 52]], "odds_ratio": 2.889, "p": 0.05462335441189869}
+== H3_finance_vs_platform_excluding_selective
+{"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[3, 4], [9, 59]], "odds_ratio": 4.917, "p": 0.07673656510153755}
 == H3_selective_by_sector
-{"finance": 7, "other": 5, "retail": 2}
+{"other": 6, "finance": 4, "e-commerce": 4}
 == H3_sector_counts_with_options
-{"other": 66, "finance": 16, "retail": 7}
+{"other": 67, "e-commerce": 11, "finance": 11}
 == H4_discoverable_vs_F18
 {"table [[a&b, a&~b], [~a&b, ~a&~b]]": [[36, 37], [4, 12]], "odds_ratio": 2.919, "p": 0.09893583860997146}
 == H5_F18_vs_conditional_mediation
@@ -59,19 +59,19 @@ true
 == H7_attachment_by_library_default
 {"cross-platform": {"SimpleWebAuthn": 1, "go-webauthn": 0, "other": 1}, "platform": {"SimpleWebAuthn": 1, "go-webauthn": 2, "other": 22}, "unset": {"SimpleWebAuthn": 7, "go-webauthn": 12, "other": 43}}
 == H7_same_library_default_all_factors
-{"within_minus_between": -0.016, "p_one_sided": 0.2868, "within_pairs": 127}
+{"within_minus_between": -0.017, "p_one_sided": 0.2692, "within_pairs": 127}
 == H7_same_library_default_without_HSK_factors
-{"within_minus_between": 0.001, "p_one_sided": 0.5216, "within_pairs": 127}
+{"within_minus_between": -0.0, "p_one_sided": 0.4953, "within_pairs": 127}
 == H7_identical_configuration_groups
 {"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA|unset|required|preferred|direct|none": ["Roblox", "Customer Ping"], "ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA|unset|preferred|required|none|none": ["Uber", "Larksuite"], "ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA|unset|preferred|preferred|unset|none": ["Synology", "Hatena"], "EdDSA,ES256,RS256|unset|preferred|preferred|none|credProps": ["Notion", "Documenso"], "ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512,EdDSA|platform|required(legacy)|required|direct|exts,uvm": ["Visma", "Dinero"], "ES256,RS256|unset|required|preferred|none|credProps": ["Vercel", "Cloze"], "EdDSA,ES256,RS256|unset|required|preferred|none|credProps": ["Linear", "Air New Zealand"], "ES256,EdDSA,RS256|unset|preferred|discouraged|none|none": ["XenForo", "ComputerBase"], "ES256,PS256,RS256|platform|required|required|unset|none": ["Moneybird", "Money Forward"], "ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA|unset|required|required|direct|none": ["Hanko.io", "Papermark"], "ES256,RS256|unset|preferred|preferred|direct|credProps,uvm": ["FormX", "Authgear"], "ES256,RS256|platform|required|required|none|none": ["Best Buy", "Webull"], "ES256,RS256|platform|required(legacy)|required|unset|none": ["Link", "Lnk"]}
 == H7_identical_configuration_all_factors
-{"within_minus_between": -0.145, "p_one_sided": 0.0025, "within_pairs": 13}
+{"within_minus_between": -0.146, "p_one_sided": 0.0023, "within_pairs": 13}
 == H7_identical_configuration_without_HSK_factors
-{"within_minus_between": -0.107, "p_one_sided": 0.0178, "within_pairs": 13}
+{"within_minus_between": -0.108, "p_one_sided": 0.0174, "within_pairs": 13}
 == H7_identical_configuration_without_HSK_without_Dinero
-{"within_minus_between": -0.031, "p_one_sided": 0.2724, "within_pairs": 12}
+{"within_minus_between": -0.031, "p_one_sided": 0.2664, "within_pairs": 12}
 == H8_rank_vs_conformity
-{"rho": -0.12, "p": 0.24720312748925702, "n": 97}
+{"rho": -0.12, "p": 0.20196311065725278, "n": 111}
 == C1_auth_providers_confirmation_step
 [{"site": "FusionAuth", "confirm": "--", "F13": 1}, {"site": "Corbado", "confirm": "-", "F13": 1}, {"site": "Hanko.io", "confirm": "-", "F13": 1}, {"site": "Authgear", "confirm": "-", "F13": 1}, {"site": "Passage", "confirm": "-", "F13": 1}]
 == C2_no_confirmation_share_joined_sites
@@ -79,6 +79,6 @@ true
 == C3_selective_sites_without_logged_options
 [{"site": "Shop", "availability": "No passkeys available"}, {"site": "Konami", "availability": "Website down"}, {"site": "Cash App", "availability": "Geolocation restricted"}, {"site": "Free Tax USA", "availability": "Foreign phone required"}, {"site": "Syncfusion", "availability": "Business email required"}, {"site": "Lowes", "availability": "Foreign phone required"}]
 == holm_adjusted
-{"H1 platform-only vs F09": 3.9769993152920796e-07, "H1 Selective vs platform-only": 3.9769993152920796e-07, "H3 finance vs platform-only": 0.011207220628939992, "H7 identical configuration": 0.015, "H3 finance+retail vs platform-only": 0.02961717828743427, "H3 finance vs UV required": 0.045366083516438734, "H4 residentKey vs F18": 0.2968075158299144, "H8 popularity vs conformity": 0.49440625497851404, "H7 same library default": 0.49440625497851404}
+{"H1 platform-only vs F09": 3.9769993152920796e-07, "H1 Selective vs platform-only": 3.9769993152920796e-07, "H7 identical configuration": 0.0161, "H3 finance vs UV required": 0.29737332537754085, "H3 finance+e-commerce vs platform-only": 0.29737332537754085, "H3 finance vs platform-only": 0.29737332537754085, "H4 residentKey vs F18": 0.29737332537754085, "H8 popularity vs conformity": 0.40392622131450556, "H7 same library default": 0.40392622131450556}
 == raw_p
-{"H1 platform-only vs F09": 4.4188881281023103e-08, "H1 Selective vs platform-only": 4.4188881281023117e-08, "H3 finance vs platform-only": 0.001601031518419999, "H3 finance vs UV required": 0.011341520879109683, "H3 finance+retail vs platform-only": 0.0059234356574868535, "H4 residentKey vs F18": 0.09893583860997146, "H7 same library default": 0.2868, "H7 identical configuration": 0.0025, "H8 popularity vs conformity": 0.24720312748925702}
+{"H1 platform-only vs F09": 4.4188881281023103e-08, "H1 Selective vs platform-only": 4.4188881281023117e-08, "H3 finance vs platform-only": 0.0670519947311973, "H3 finance vs UV required": 0.04956222089625681, "H3 finance+e-commerce vs platform-only": 0.05462335441189869, "H4 residentKey vs F18": 0.09893583860997146, "H7 same library default": 0.2692, "H7 identical configuration": 0.0023, "H8 popularity vs conformity": 0.20196311065725278}

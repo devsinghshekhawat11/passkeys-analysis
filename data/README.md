@@ -15,17 +15,19 @@ Expected layout: one row per website (111 rows), the first five columns are site
 
 `analysis/factor_stats.csv` is the per-factor summary derived from that file (implementation rate, normalised entropy, guidance codes). The guidance-consensus scripts (`a10_weighted_consensus.py`) only need this CSV.
 
-### `ramat2026-table1-extracted.csv` (committed)
+### `ramat2026-site-scores.csv` (committed)
 
-The same 111 x 28 scores, extracted from the coloured cells of Table 1 in the published PDF by `analysis/a11_extract_table1.py`, plus each site's popularity rank and cluster. The joined analysis (`a12`, `a13`) uses this file, so it runs without the Zenodo download. Columns: `rank`, `site`, `cluster`, `F01`..`F28`.
+The same Zenodo spreadsheet exported to CSV (CC BY 4.0), so the joined analysis (`a12`, `a13`) runs without the download. Columns: `site` (name as printed in Ramat et al. Table 1), `cluster`, `rank` (unranked sites carry the dataset's maximum rank), `category` (the spreadsheet's `Category`, the sector variable used throughout the paper), `url`, `F01`..`F28`. Credit: Ramat, Kartchner, Clark and Seamons, SOUPS 2026.
 
-It reproduces 27 of the 28 implementation rates in the paper's Table 2 exactly. For F28 it gives 90% instead of 91%: the printed Table 1 shows 84 partial, 11 full and 11 non-match cells, while the spreadsheet behind Table 2 has 83 / 13 / 10. The difference is in the source, not in the extraction. Credit: Ramat, Kartchner, Clark and Seamons, SOUPS 2026 (CC BY 4.0).
+### `ramat2026-table1-extracted.csv` (committed, validation only)
+
+The scores extracted from the coloured cells of Table 1 in the published PDF by `analysis/a11_extract_table1.py`. They agree with the spreadsheet on every cell except eight F28 cells (Passage, Vault Vision, SK Telecom, Webull, Syncfusion, Marshmallow, Marketcircle, Nintendo), where the printed figure itself differs from the released data. No analysis uses this file; it documents that check.
 
 ## 2. Logged WebAuthn options: PASSKEYS-RADAR (Jannett et al., USENIX Security 2026)
 
 ### `passkeys-radar-subset.csv` (committed)
 
-One row per Ramat site, built by `analysis/a12_join_webauthn.py` from the PASSKEYS-RADAR evaluation sheet (`notebooks/sheet.csv` at commit `7850bc9` of https://github.com/RUB-NDS/state-of-passkeys-artifacts, Apache-2.0). Columns:
+One row per Ramat site (matched on the names in `ramat2026-site-scores.csv`), built by `analysis/a12_join_webauthn.py` from the PASSKEYS-RADAR evaluation sheet (`notebooks/sheet.csv` at commit `7850bc9` of https://github.com/RUB-NDS/state-of-passkeys-artifacts, Apache-2.0). Columns:
 
 | Column | Meaning |
 | --- | --- |

@@ -9,7 +9,8 @@ Usage:  python3 a11_extract_table1.py path/to/soups2026-ramat.pdf
 Check:  the extracted matrix reproduces 27 of 28 implementation rates in the paper's Table 2 exactly.
         F28 gives 90% instead of 91%: the printed Table 1 itself shows 84 partial, 11 full and 11 non-match
         cells for F28, while the released spreadsheet (and Table 2) has 83 / 13 / 10. The difference is in
-        the source, not the extraction. See a11_output.txt.
+        the source, not the extraction (eight cells differ from the released spreadsheet, all in F28).
+        The joined analysis uses the spreadsheet (data/ramat2026-site-scores.csv); this file is a validation.
 """
 import sys
 from pathlib import Path

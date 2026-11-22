@@ -1,7 +1,7 @@
 """Join Ramat et al.'s 111 websites with the WebAuthn options logged by Jannett et al. (USENIX Security 2026).
 
 Input
-  data/ramat2026-table1-extracted.csv   (from a11_extract_table1.py)
+  data/ramat2026-site-scores.csv        Ramat et al. per-site scores (Zenodo spreadsheet exported to CSV)
   data/passkeys-radar-sheet.csv         full PASSKEYS-RADAR evaluation sheet (not committed; downloaded
                                          automatically from the pinned artifact commit if missing)
 Output
@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
-RAMAT = ROOT / "data" / "ramat2026-table1-extracted.csv"
+RAMAT = ROOT / "data" / "ramat2026-site-scores.csv"
 SHEET = ROOT / "data" / "passkeys-radar-sheet.csv"
 OUT = ROOT / "data" / "passkeys-radar-subset.csv"
 SHEET_URL = ("https://raw.githubusercontent.com/RUB-NDS/state-of-passkeys-artifacts/"

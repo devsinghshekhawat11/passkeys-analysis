@@ -51,9 +51,9 @@ hs=[Line2D([],[],marker='o',ls='',color=col[c],label=names[c],markersize=4) for 
 ax.legend(handles=hs,fontsize=6,ncol=3,loc='upper center',bbox_to_anchor=(0.5,1.2),frameon=False,handletextpad=0.2,columnspacing=0.8)
 [s.set_linewidth(0.6) for s in ax.spines.values()]
 fig.savefig('fig3.pdf',bbox_inches='tight',pad_inches=0.02)
-# Figure 4: platform-only registration by cluster and service type (counts from analysis/a13_output.txt)
+# Figure 4: platform-only registration by cluster and sector (counts from analysis/a13_output.txt)
 panels=[('By original cluster',[('Standard',12,74),('Selective',13,14)]),
-        ('By service type',[('Finance',10,16),('Retail',2,7),('Other',13,66)])]
+        ('By sector',[('Finance',6,11),('E-Comm.',4,11),('Other',15,67)])]
 fig,axes=plt.subplots(1,2,figsize=(3.33,2.1),gridspec_kw={'width_ratios':[2,3]},sharey=True)
 for ax,(title,rows) in zip(axes,panels):
     labels=[r[0] for r in rows]; vals=[100*r[1]/r[2] for r in rows]

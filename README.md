@@ -16,7 +16,7 @@ Main results:
 
 - Factors on which guidance sources agree are implemented more consistently (Spearman ρ = −0.45, p = 0.016; FIDO weighted 70%, the other four sources 7.5% each). The result holds with equal weights (ρ = −0.46), without duplicate or browser-default factors, and when any single source is left out.
 - One of the three reported website clusters ("Selective", 20 sites) is a single registration restriction counted four times. The logged options confirm it: 13 of the 14 Selective sites with logged options send `authenticatorAttachment: "platform"`, against 12 of 74 Standard sites (Holm p < 0.001), and 11 of the 14 leave sign-in open to the authenticators that registration refuses.
-- The restriction follows sector risk posture, not the server library: 63% of finance sites restrict registration against 21% of others, and sites sharing a library default (go-webauthn, SimpleWebAuthn) are no more alike in user experience than random pairs.
+- The restriction is a deliberate configuration, not a server-library default: sites sharing a library default (go-webauthn, SimpleWebAuthn) leave attachment unset and are no more alike in user experience than random pairs. Finance and e-commerce sites restrict registration more often (45% vs 22%), but that difference is not significant in the logged sample (Holm p = 0.30).
 - 70 of 108 websites re-authenticate users neither before a passkey is added nor before one is deleted; in the independent logs, 67% of the joined sites add a passkey without any confirmation.
 - Recommendations: 10 changes to the FIDO guidelines, 9 website practices and 4 requests to platform and identity-provider vendors, each graded Strong, Moderate or Weak by its supporting evidence.
 
@@ -36,7 +36,7 @@ analysis/   Python analysis scripts and their saved outputs
   a12_join_webauthn.py           joins the 111 sites with PASSKEYS-RADAR logged WebAuthn options
   a13_webauthn_tests.py          tests of the explanations against logged options (Section 4.8, Appendix E)
   *_output.txt                   outputs of each script as reported in the paper
-data/       input data (see data/README.md): extracted Ramat scores and the PASSKEYS-RADAR subset
+data/       input data (see data/README.md): Ramat scores as CSV, the Table 1 extraction check, and the PASSKEYS-RADAR subset
 docs/       h1-attachment-test.md: H1 results and a manual protocol for the remaining gaps
 paper/      LaTeX source, figures, build scripts and the compiled PDF
 ```
@@ -56,7 +56,7 @@ python3 a10_weighted_consensus.py
 python3 a1_cooccurrence_attributes.py ../data/ramat2026-site-scores.xlsx
 python3 a7_cluster_sensitivity.py ../data/ramat2026-site-scores.xlsx
 
-# Joined analysis with logged WebAuthn options (runs from the committed data files)
+# Joined analysis with logged WebAuthn options (runs from the committed CSV files)
 python3 a13_webauthn_tests.py > a13_output.txt
 # Optional: rebuild the inputs from the sources
 python3 a11_extract_table1.py path/to/soups2026-ramat.pdf > a11_output.txt
@@ -83,4 +83,4 @@ Requires pandoc and a TeX Live installation with `mathptmx`.
 - Website-level scores: Ramat et al., SOUPS 2026, supplementary material at https://zenodo.org/records/20709272 (CC BY 4.0). Please cite their paper when using that data.
 - Logged WebAuthn options: Jannett et al., "The State of Passkeys", USENIX Security 2026, artifacts at https://github.com/RUB-NDS/state-of-passkeys-artifacts (Apache-2.0). Our subset excludes their attack results.
 
-Guidance coding (M = prescribed 3, S = recommended 2, O = optional 1, A = ambiguous 0.5, X or silent 0), harm ratings and the service-type coding used in the joined analysis are single-coder judgements by the authors; see Sections 3.6 and 3.7 of the paper.
+Guidance coding (M = prescribed 3, S = recommended 2, O = optional 1, A = ambiguous 0.5, X or silent 0) and harm ratings are single-coder judgements by the authors; see Section 3.7 of the paper.

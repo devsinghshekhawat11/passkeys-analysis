@@ -1,11 +1,11 @@
 """Test explanations for passkey inconsistency against independently logged WebAuthn options.
 
-Joins Ramat et al.'s factor scores (data/ramat2026-table1-extracted.csv) with the registration and sign-in
+Joins Ramat et al.'s factor scores and site categories (data/ramat2026-site-scores.csv) with the registration and sign-in
 options logged by Jannett et al. (data/passkeys-radar-subset.csv, from a12_join_webauthn.py) and tests:
 
   H1  platform-only registration (authenticatorAttachment: "platform") explains F09/F10 failure
   H2  Selective sites restrict registration but leave sign-in open (F20/F21 partial matches)
-  H3  the restriction follows sector risk posture (finance), together with required user verification
+  H3  the restriction follows sector risk posture (the dataset's Finance category), with required user verification
   H4  discoverable credentials (residentKey) go with autofill (F18)
   H5  agreement between the two independent audits on overlapping behaviours (Cohen's kappa)
   H6  Signal API use and authenticator-cleanup prompts (F25)
@@ -27,12 +27,6 @@ F = [f"F{i:02d}" for i in range(1, 29)]
 HSK = ["F09", "F10", "F20", "F21"]
 SEED = 42
 
-# Service-type coding by the authors from each site's main business (Appendix E of the paper).
-FINANCE = {"Stripe", "Coinbase", "Square Up", "Luno", "Moneybird", "Dinero", "Finom", "PayPal", "Sumup",
-           "Money Forward", "Cash App", "Link", "Free Tax USA", "Webull", "Binance", "Marshmallow",
-           "Turnkey", "DEXT", "Visma"}
-RETAIL = {"Amazon", "Ebay", "Shopify", "Target", "Best Buy", "Shop", "Lowes", "Microcenter", "Migros", "Hard Wax"}
-AMBIGUOUS_FINANCE = {"Turnkey", "Marshmallow", "DEXT"}
 # Default COSE algorithm lists, read from library source (exact order)
 LIBRARY_DEFAULTS = {
     "ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA": "go-webauthn",   # CredentialParametersDefault()
@@ -42,10 +36,11 @@ AUTH_PROVIDERS = ["Authgear", "Corbado", "FusionAuth", "Hanko.io", "Passage", "V
 
 
 def load():
-    r = pd.read_csv(ROOT / "data" / "ramat2026-table1-extracted.csv")
+    r = pd.read_csv(ROOT / "data" / "ramat2026-site-scores.csv")
     s = pd.read_csv(ROOT / "data" / "passkeys-radar-subset.csv")
     d = r.merge(s, on="site", how="left")
-    d["sector"] = np.where(d.site.isin(FINANCE), "finance", np.where(d.site.isin(RETAIL), "retail", "other"))
+    # Sector = the Category column of the Ramat et al. dataset, as in Section 4.4 of the paper
+    d["sector"] = d.category.map({"Finance": "finance", "E-Commerce": "e-commerce"}).fillna("other")
     return d
 
 
@@ -126,14 +121,13 @@ def main():
     fin = o.sector == "finance"
     res["H3_finance_vs_platform"] = fisher(fin, o.platform_only)
     res["H3_finance_vs_uv_required"] = fisher(fin, o.uv_create == "required")
-    res["H3_finance_or_retail_vs_platform"] = fisher(o.sector.isin(["finance", "retail"]), o.platform_only)
-    keep = ~o.site.isin(AMBIGUOUS_FINANCE)
-    res["H3_finance_vs_platform_without_ambiguous_labels"] = fisher(fin[keep], o.platform_only[keep])
+    res["H3_finance_or_ecommerce_vs_platform"] = fisher(o.sector.isin(["finance", "e-commerce"]), o.platform_only)
+    res["H3_finance_vs_platform_excluding_selective"] = fisher(fin[o.cluster != "Selective"], o.platform_only[o.cluster != "Selective"])
     res["H3_selective_by_sector"] = sel.sector.value_counts().to_dict()
     res["H3_sector_counts_with_options"] = o.sector.value_counts().to_dict()
     P["H3 finance vs platform-only"] = res["H3_finance_vs_platform"]["p"]
     P["H3 finance vs UV required"] = res["H3_finance_vs_uv_required"]["p"]
-    P["H3 finance+retail vs platform-only"] = res["H3_finance_or_retail_vs_platform"]["p"]
+    P["H3 finance+e-commerce vs platform-only"] = res["H3_finance_or_ecommerce_vs_platform"]["p"]
 
     # H4
     rk = o.resident_key.isin(["required", "preferred", "required(legacy)"])
@@ -178,7 +172,7 @@ def main():
 
     # H8
     d["conformity"] = d[F].apply(lambda r: (r[r > 0] >= 2).mean(), axis=1)
-    rank = pd.to_numeric(d["rank"], errors="coerce")
+    rank = pd.to_numeric(d["rank"], errors="coerce")   # unranked sites carry the dataset's maximum rank
     m = rank.notna()
     rho, p = spearmanr(np.log10(rank[m]), d.conformity[m])
     res["H8_rank_vs_conformity"] = {"rho": round(float(rho), 2), "p": float(p), "n": int(m.sum())}
