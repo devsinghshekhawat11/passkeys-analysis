@@ -1,0 +1,25 @@
+equal (original, sum of 5)                       all 28        rho=-0.46 p=0.013
+equal (original, sum of 5)                       drop F10,F21  rho=-0.46 p=0.019
+FIDO 70 / G,A,MS 10 each; WebAuthn excluded      all 28        rho=-0.44 p=0.021
+FIDO 70 / G,A,MS 10 each; WebAuthn excluded      drop F10,F21  rho=-0.44 p=0.025
+FIDO+WebAuthn 70 (35 each) / G,A,MS 10 each      all 28        rho=-0.48 p=0.010
+FIDO+WebAuthn 70 (35 each) / G,A,MS 10 each      drop F10,F21  rho=-0.49 p=0.011
+FIDO 70 / WebAuthn,G,A,MS 7.5 each               all 28        rho=-0.45 p=0.016
+FIDO 70 / WebAuthn,G,A,MS 7.5 each               drop F10,F21  rho=-0.45 p=0.021
+FIDO alone (100)                                 all 28        rho=-0.36 p=0.058
+FIDO alone (100)                                 drop F10,F21  rho=-0.38 p=0.058
+FIDO 70 / G,A,MS 10 each; WebAuthn excluded bootstrap CI [-0.78 -0.01] perm p 0.023
+FIDO+WebAuthn 70 (35 each) / G,A,MS 10 each bootstrap CI [-0.79 -0.08] perm p 0.01
+FIDO 70 / WebAuthn,G,A,MS 7.5 each bootstrap CI [-0.79 -0.04] perm p 0.017
+== Robustness for chosen weighting: FIDO 70%, WebAuthn/Google/Apple/Microsoft 7.5% each (authors choice, 22 Nov)
+all                                           n=28 rho=-0.45 p=0.016
+drop F10,F21                                  n=26 rho=-0.45 p=0.021
+drop F20,F21                                  n=26 rho=-0.45 p=0.021
+drop F07,F11,F16                              n=25 rho=-0.43 p=0.031
+leave out FIDO       rho=-0.45 p=0.018
+leave out WebAuthn   rho=-0.44 p=0.021
+leave out Google     rho=-0.42 p=0.027
+leave out Apple      rho=-0.51 p=0.005
+leave out Microsoft  rho=-0.47 p=0.013
+rank-OLS {'const': np.float64(27.31), 'wc': np.float64(-0.38), 'default': np.float64(-0.5)} {'const': np.float64(0.0), 'wc': np.float64(0.033), 'default': np.float64(0.042)}
+weighted consensus per factor: {'F01': np.float64(1.78), 'F02': np.float64(1.44), 'F03': np.float64(0.77), 'F04': np.float64(1.7), 'F05': np.float64(0.96), 'F06': np.float64(1.08), 'F07': np.float64(1.0), 'F08': np.float64(1.7), 'F09': np.float64(0.81), 'F10': np.float64(0.85), 'F11': np.float64(0.92), 'F12': np.float64(1.04), 'F13': np.float64(0.15), 'F14': np.float64(0.85), 'F15': np.float64(0.39), 'F16': np.float64(0.7), 'F17': np.float64(0.04), 'F18': np.float64(1.85), 'F19': np.float64(2.0), 'F20': np.float64(0.77), 'F21': np.float64(0.77), 'F22': np.float64(1.0), 'F23': np.float64(1.78), 'F24': np.float64(1.78), 'F25': np.float64(0.92), 'F26': np.float64(0.0), 'F27': np.float64(0.7), 'F28': np.float64(0.74)}

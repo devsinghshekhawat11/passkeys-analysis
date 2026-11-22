@@ -1,0 +1,36 @@
+== reproduce paper (all 28) mean 0.57 median 0.56
+col_0    1   2   3
+Cluster           
+1        0   0  89
+2        0  20   0
+3        2   0   0
+== drop redundant F10,F21 mean 0.57 median 0.57
+col_0    1  2   3
+Cluster          
+1        0  0  89
+2        0  4  16
+3        2  0   0
+== drop F10,F21 + F20 partial->full mean 0.57 median 0.57
+col_0    1  2   3
+Cluster          
+1        0  0  89
+2        0  4  16
+3        2  0   0
+== also drop converged factors mean 0.65 median 0.66
+col_0     1   2  3
+Cluster           
+1        62  26  1
+2         5  15  0
+3         2   0  0
+== drop F10,F21 + recode, k=4 mean 0.57 median 0.57
+col_0    1  2  3   4
+Cluster             
+1        0  0  2  87
+2        0  4  0  16
+3        2  0  0   0
+== drop F10,F21 + recode, k=5 mean 0.57 median 0.57
+col_0    1  2  3  4   5
+Cluster                
+1        0  0  2  6  81
+2        0  4  0  3  13
+3        2  0  0  0   0

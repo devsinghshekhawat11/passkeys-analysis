@@ -1,0 +1,128 @@
+== H09a F09 vs F10, and their relation to F20/F21
+(111, [[20, 0], [0, 91]], np.float64(1.0), np.float64(1.0), np.float64(1.8657831883861603e-22))
+F09 non-match sites: 20 F10 non: 20 F20 vals {2: 16, 1: 4} F21 {2: 16, 1: 4} clusters {2: 20}
+F09 non sites: ['Best Buy', 'Binance', 'Cash App', 'Free Tax USA', 'Konami', 'Link', 'Lnk', 'Lowes', 'Marketcircle', 'Marshmallow', 'Money Forward', 'Nintendo', 'OneLog', 'PayPal', 'Pixiv', 'Shop', 'Sumup', 'Syncfusion', 'Target', 'Webull']
+== pairs
+F13 F26 n 108 tab[[a0b0,a0b1],[a1b0,a1b1]] [[70, 6], [6, 26]] agree 0.89 phi 0.73 p=7.6e-14
+F14 F27 n 108 tab[[a0b0,a0b1],[a1b0,a1b1]] [[14, 6], [20, 68]] agree 0.76 phi 0.4 p=9.9e-05
+F14 F16 n 51 tab[[a0b0,a0b1],[a1b0,a1b1]] [[5, 3], [19, 24]] agree 0.57 phi 0.13 p=0.45
+F16 F27 n 50 tab[[a0b0,a0b1],[a1b0,a1b1]] [[11, 12], [4, 23]] agree 0.68 phi 0.36 p=0.015
+F17 F18 n 111 tab[[a0b0,a0b1],[a1b0,a1b1]] [[2, 16], [62, 31]] agree 0.3 phi -0.41 p=1.3e-05
+F02 F01 n 111 tab[[a0b0,a0b1],[a1b0,a1b1]] [[9, 62], [2, 38]] agree 0.42 phi 0.12 p=0.32
+F25 F28 n 106 tab[[a0b0,a0b1],[a1b0,a1b1]] [[9, 72], [1, 24]] agree 0.31 phi 0.1 p=0.45
+F15 F23 n 107 tab[[a0b0,a0b1],[a1b0,a1b1]] [[4, 53], [0, 50]] agree 0.5 phi 0.18 p=0.12
+F03 F09 n 111 tab[[a0b0,a0b1],[a1b0,a1b1]] [[16, 47], [4, 44]] agree 0.54 phi 0.22 p=0.025
+F06 F10 n 111 tab[[a0b0,a0b1],[a1b0,a1b1]] [[18, 65], [2, 26]] agree 0.4 phi 0.16 p=0.096
+F13 F14 n 111 tab[[a0b0,a0b1],[a1b0,a1b1]] [[19, 59], [3, 30]] agree 0.44 phi 0.18 p=0.073
+F26 F27 n 108 tab[[a0b0,a0b1],[a1b0,a1b1]] [[23, 53], [11, 21]] agree 0.41 phi -0.04 p=0.82
+F04 F03 n 111 tab[[a0b0,a0b1],[a1b0,a1b1]] [[40, 14], [23, 34]] agree 0.67 phi 0.34 p=0.00051
+== full phi matrix top |phi|>=0.3
+(np.float64(1.0), 'F09', 'F10', 111, '2e-22')
+(np.float64(1.0), 'F20', 'F21', 111, '2e-07')
+(np.float64(0.73), 'F13', 'F26', 108, '8e-14')
+(np.float64(0.7), 'F08', 'F12', 111, '9e-05')
+(np.float64(0.69), 'F07', 'F11', 26, '0.08')
+(np.float64(0.66), 'F08', 'F24', 111, '0.001')
+(np.float64(0.6), 'F23', 'F24', 111, '0.0003')
+(np.float64(-0.46), 'F07', 'F20', 27, '0.1')
+(np.float64(-0.46), 'F07', 'F21', 27, '0.1')
+(np.float64(0.45), 'F12', 'F24', 111, '0.007')
+(np.float64(0.41), 'F09', 'F20', 111, '0.0008')
+(np.float64(0.41), 'F09', 'F21', 111, '0.0008')
+(np.float64(0.41), 'F10', 'F20', 111, '0.0008')
+(np.float64(0.41), 'F10', 'F21', 111, '0.0008')
+(np.float64(-0.41), 'F17', 'F18', 111, '1e-05')
+(np.float64(0.4), 'F08', 'F19', 111, '0.05')
+(np.float64(0.4), 'F14', 'F27', 108, '0.0001')
+(np.float64(0.4), 'F19', 'F24', 111, '0.05')
+(np.float64(0.39), 'F04', 'F25', 108, '6e-05')
+(np.float64(0.38), 'F08', 'F23', 111, '0.01')
+(np.float64(0.38), 'F12', 'F20', 111, '0.01')
+(np.float64(0.38), 'F12', 'F21', 111, '0.01')
+(np.float64(0.36), 'F16', 'F27', 50, '0.01')
+(np.float64(0.36), 'F18', 'F25', 108, '0.0004')
+(np.float64(0.34), 'F03', 'F04', 111, '0.0005')
+(np.float64(0.34), 'F07', 'F25', 27, '0.2')
+(np.float64(0.34), 'F08', 'F14', 111, '0.007')
+(np.float64(0.34), 'F09', 'F15', 107, '0.0006')
+(np.float64(0.34), 'F10', 'F15', 107, '0.0006')
+(np.float64(-0.33), 'F16', 'F18', 51, '0.02')
+(np.float64(0.32), 'F01', 'F08', 111, '0.03')
+(np.float64(0.32), 'F01', 'F24', 111, '0.03')
+(np.float64(0.32), 'F25', 'F27', 108, '0.0004')
+(np.float64(-0.31), 'F11', 'F20', 87, '0.1')
+(np.float64(-0.31), 'F11', 'F21', 87, '0.1')
+(np.float64(0.3), 'F15', 'F17', 107, '0.001')
+== rank (Spearman of rank vs match, and Mann-Whitney)
+F01 Promotion median rank match 19241 non 99529 p=0.38
+F02 Priority median rank match 82810 non 13139 p=0.075
+F03 HSK-Awareness median rank match 35887 non 13450 p=0.62
+F04 Educational-Resources median rank match 12687 non 35547 p=0.022
+F05 Naming-Conventions median rank match 19377 non 259473 p=0.49
+F06 Registration-Setup median rank match 771768 non 14088 p=0.0093
+F07 OTP-Setup median rank match 1684128 non 566 p=0.35
+F08 Settings-Setup median rank match 19504 non 281171 p=0.38
+F09 HSK-Setup median rank match 24116 non 16859 p=0.6
+F10 Cross-Device-Setup median rank match 24116 non 16859 p=0.6
+F11 Recovery-Setup median rank match 3319 non 18195 p=0.99
+F12 Multicreation median rank match 22002 non 9216 p=0.99
+F13 Setup-Authentication median rank match 8212 non 27451 p=0.11
+F14 Setup-Notification median rank match 13139 non 936085 p=0.00033
+F15 Update-Option median rank match 17496 non 19377 p=0.87
+F16 Update-Notification median rank match 30582 non 14669 p=0.29
+F17 Sign-In-UI median rank match 24116 non 15551 p=0.41
+F18 Autofill-Feature median rank match 12585 non 31591 p=0.048
+F19 Fallback-Authentication median rank match 19377 non 3367805 p=0.032
+F20 Cross-Device-Usage median rank match 19631 non 147629 p=0.39
+F21 HSK-Usage median rank match 19631 non 147629 p=0.39
+F22 Mobile-App-Usage median rank match 2475 non 3815 p=0.47
+F23 Management-UI median rank match 19377 non 132247 p=0.62
+F24 Delete-Option median rank match 19504 non 1095622 p=0.27
+F25 Authenticator-Cleanup median rank match 4973 non 26393 p=0.013
+F26 Deletion-Authentication median rank match 10398 non 23059 p=0.22
+F27 Deletion-Notification median rank match 12993 non 42916 p=0.059
+F28 Deletion-Confirmation median rank match 18059 non 135364 p=0.28
+== Authentication Provider vs others
+['Authgear', 'Corbado', 'FusionAuth', 'Hanko.io', 'Passage', 'Vault Vision']
+F01 Promotion auth 4/6=67% others 91% p=0.11
+F02 Priority auth 4/6=67% others 34% p=0.19
+F03 HSK-Awareness auth 4/6=67% others 42% p=0.4
+F04 Educational-Resources auth 3/6=50% others 51% p=1
+F05 Naming-Conventions auth 5/6=83% others 93% p=0.37
+F06 Registration-Setup auth 5/6=83% others 22% p=0.0038
+F08 Settings-Setup auth 6/6=100% others 97% p=1
+F09 HSK-Setup auth 6/6=100% others 81% p=0.59
+F10 Cross-Device-Setup auth 6/6=100% others 81% p=0.59
+F11 Recovery-Setup auth 0/3=0% others 4% p=1
+F12 Multicreation auth 6/6=100% others 94% p=1
+F13 Setup-Authentication auth 0/6=0% others 31% p=0.18
+F14 Setup-Notification auth 2/6=33% others 83% p=0.014
+F15 Update-Option auth 3/6=50% others 47% p=1
+F16 Update-Notification auth 2/3=67% others 52% p=1
+F17 Sign-In-UI auth 6/6=100% others 83% p=0.59
+F18 Autofill-Feature auth 2/6=33% others 43% p=1
+F19 Fallback-Authentication auth 6/6=100% others 98% p=1
+F20 Cross-Device-Usage auth 6/6=100% others 96% p=1
+F21 HSK-Usage auth 6/6=100% others 96% p=1
+F23 Management-UI auth 6/6=100% others 92% p=1
+F24 Delete-Option auth 6/6=100% others 97% p=1
+F25 Authenticator-Cleanup auth 0/6=0% others 25% p=0.33
+F26 Deletion-Authentication auth 0/6=0% others 31% p=0.18
+F27 Deletion-Notification auth 1/6=17% others 72% p=0.011
+F28 Deletion-Confirmation auth 6/6=100% others 90% p=1
+== Category (IT vs Finance vs E-Commerce) rates
+Information Technology {'F02': 29, 'F03': 47, 'F04': 45, 'F09': 94, 'F13': 24, 'F18': 35, 'F22': 70, 'F25': 16, 'F26': 27}
+Finance {'F02': 29, 'F03': 71, 'F04': 57, 'F09': 57, 'F13': 57, 'F18': 36, 'F22': 33, 'F25': 29, 'F26': 50}
+E-Commerce {'F02': 57, 'F03': 14, 'F04': 71, 'F09': 57, 'F13': 14, 'F18': 29, 'F22': 56, 'F25': 50, 'F26': 21}
+Finance vs rest F03 [[10, 4], [38, 59]] p=0.04
+Finance vs rest F09 [[8, 6], [83, 14]] p=0.019
+Finance vs rest F13 [[8, 6], [25, 72]] p=0.026
+Finance vs rest F18 [[5, 9], [42, 55]] p=0.77
+Finance vs rest F22 [[4, 8], [35, 15]] p=0.042
+Finance vs rest F26 [[7, 7], [25, 69]] p=0.11
+Finance vs rest F02 [[4, 10], [36, 61]] p=0.77
+Finance vs rest F04 [[8, 6], [49, 48]] p=0.78
+== F28 partials vs password present proxy? F28 values {2: 83, 3: 13, 1: 10, 0: 5}
+== F17 non-match with F18 {1: {1: 2, 3: 62}, 3: {1: 16, 3: 31}}
+== F06 values {1: 83, 3: 19, 2: 9}
+== F13/F26 joint (raw) {0: {1: 2, 2: 0, 3: 1}, 1: {1: 70, 2: 1, 3: 5}, 2: {1: 1, 2: 3, 3: 1}, 3: {1: 5, 2: 0, 3: 22}}

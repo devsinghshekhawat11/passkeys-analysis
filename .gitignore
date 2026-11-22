@@ -1,0 +1,8 @@
+# Dataset from Ramat et al. (download from Zenodo, see data/README.md)
+data/*.xlsx
+# LaTeX build files
+*.aux
+*.log
+*.out
+paper/paper.pdf
+__pycache__/

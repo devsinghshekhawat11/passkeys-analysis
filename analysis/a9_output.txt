@@ -1,0 +1,55 @@
+== 1. Consensus vs inconsistency (entropy), robustness
+all 28                                                  n=28 rho=-0.46 p=0.013
+drop exact duplicates F10,F21                           n=26 rho=-0.46 p=0.019
+drop browser-default F20,F21                            n=26 rho=-0.46 p=0.018
+drop small-n factors F07,F11,F16 (n<60)                 n=25 rho=-0.43 p=0.031
+only factors applicable to >=100 sites                  n=24 rho=-0.46 p=0.023
+leave out FIDO                                          n=28 rho=-0.45 p=0.018
+leave out WebAuthn                                      n=28 rho=-0.41 p=0.032
+leave out Google                                        n=28 rho=-0.43 p=0.024
+leave out Apple                                         n=28 rho=-0.53 p=0.004
+leave out Microsoft                                     n=28 rho=-0.47 p=0.012
+bootstrap 95% CI rho: [-0.8  -0.04]
+permutation p (two-sided): 0.0152
+rank-OLS entropy ~ consensus + default: {'const': np.float64(27.32), 'tot': np.float64(-0.39), 'default': np.float64(-0.5)} p: {'const': np.float64(0.0), 'tot': np.float64(0.029), 'default': np.float64(0.045)}
+== 2. Benjamini-Hochberg over the site-level tests reported in phase 2
+F09~F10 co-occurrence                         p=1.9e-22 q=4.3e-21 SIG
+F13~F26 co-occurrence                         p=7.6e-14 q=8.7e-13 SIG
+F20~F21 co-occurrence                         p=1.7e-07 q=1.3e-06 SIG
+F17~F18 co-occurrence                         p=1.3e-05 q=7.8e-05 SIG
+F14~F27 co-occurrence                         p=9.9e-05 q=0.00046 SIG
+Selective cluster: e-com+finance vs rest      p=0.00026 q=0.00098 SIG
+F14 vs popularity rank                        p=0.00033 q=0.0011 SIG
+F04~F03 co-occurrence                         p=0.00051 q=0.0015 SIG
+F06 auth-provider vs rest                     p=0.0038 q=0.0096 SIG
+F06 vs popularity rank                        p=0.0093 q=0.021 SIG
+F27 auth-provider vs rest                     p=0.011 q=0.024 SIG
+F25 vs popularity rank                        p=0.013 q=0.024 SIG
+F14 auth-provider vs rest                     p=0.014 q=0.024 SIG
+F16~F27 co-occurrence                         p=0.015 q=0.025 SIG
+F09 finance vs rest                           p=0.019 q=0.029 SIG
+F04 vs popularity rank                        p=0.022 q=0.032 SIG
+F03~F09 co-occurrence                         p=0.025 q=0.034 SIG
+F13 finance vs rest                           p=0.026 q=0.034 SIG
+F19 vs popularity rank                        p=0.032 q=0.039 SIG
+F03 finance vs rest                           p=0.04 q=0.046 SIG
+F22 finance vs rest                           p=0.042 q=0.046 SIG
+F18 vs popularity rank                        p=0.048 q=0.05 ns
+F14~F16 co-occurrence                         p=0.45 q=0.45 ns
+tests: 23 significant after BH: 21
+== 3. Lifecycle-security exposure (per site)
+applicable for both F13,F26: 108
+no re-auth for add AND delete: 70
+no re-auth AND no add-notification: 16
+no re-auth AND no notification for add or delete: 12
+re-auth on add only / delete only / both: 6 6 26
+== 4. F28 breakdown (3 full, 2 partial, 1 non, 0 NA) {2: 83, 3: 13, 1: 10, 0: 5}
+F28 partial among sites by cluster F28      0  1   2   3
+Cluster              
+1        2  8  68  11
+2        1  2  15   2
+3        2  0   0   0
+== 5. Recovery F11 and F19 fallback {1: 84, 0: 24, 3: 3} {3: 109, 1: 2}
+== 6. F22 app mismatch {0: 49, 3: 39, 1: 23}
+== 7. Sites with F09 non-match by category {'E-Commerce': 6, 'Finance': 6, 'Information Technology': 3, 'Lifestyle & Leisure': 2, 'Social Media': 1, 'Entertainment': 1, 'Other': 1}
+category counts {'Information Technology': 51, 'E-Commerce': 14, 'Finance': 14, 'Lifestyle & Leisure': 8, 'Authentication Provider': 6, 'Travel and Hospitality': 4, 'Social Media': 3, 'Other': 3, 'Education': 2, 'Government': 2, 'Productivity': 2, 'Automotive': 1, 'Entertainment': 1}
