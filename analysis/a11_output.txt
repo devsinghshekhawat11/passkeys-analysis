@@ -1,0 +1,33 @@
+wrote data/ramat2026-table1-extracted.csv: 111 sites
+factor  extracted  paper
+F01      90%       90%
+F02      36%       36%
+F03      43%       43%
+F04      51%       51%
+F05      93%       93%
+F06      25%       25%
+F07       7%        7%
+F08      97%       97%
+F09      82%       82%
+F10      82%       82%
+F11       3%        3%
+F12      95%       95%
+F13      30%       30%
+F14      80%       80%
+F15      47%       47%
+F16      53%       53%
+F17      84%       84%
+F18      42%       42%
+F19      98%       98%
+F20      96%       96%
+F21      96%       96%
+F22      63%       63%
+F23      93%       93%
+F24      97%       97%
+F25      23%       23%
+F26      30%       30%
+F27      69%       69%
+F28      90%       91%  <-- differs
+Standard mean rate 67
+Selective mean rate 54
+Experimental mean rate 34

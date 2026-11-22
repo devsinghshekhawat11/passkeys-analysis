@@ -1,5 +1,7 @@
 # Dataset from Ramat et al. (download from Zenodo, see data/README.md)
 data/*.xlsx
+# Full PASSKEYS-RADAR sheet (downloaded by analysis/a12_join_webauthn.py; the committed subset is enough)
+data/passkeys-radar-sheet.csv
 # LaTeX build files
 *.aux
 *.log

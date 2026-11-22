@@ -1,0 +1,112 @@
+site,matched,radar_name,domain,availability,confirm,multiple_passkeys,mode_conditional,mode_nondiscoverable,signal_api,has_options,attachment,resident_key,uv_create,attestation,hints,algorithms,extensions,get_transports,uv_get
+Google,True,Google,google.com,TRUE,[Password],TRUE,TRUE,TRUE,FALSE,True,platform,preferred,preferred,direct,unset,"ES256,RS256","appidExclude,googleLegacyAppidSupport","hybrid,internal",preferred
+Microsoft,True,Microsoft,microsoft.com,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,required(legacy),required,direct,unset,"ES256,RS256","credentialProtectionPolicy,hmacCreateSecret",none-listed,required
+LinkedIn,True,LinkedIn,linkedin.com,TRUE,Password + [Email],TRUE,TRUE,FALSE,FALSE,True,unset,required,preferred,unset,unset,"ES256,RS256",none,empty-allow,preferred
+Amazon,True,Amazon,amazon.com,TRUE,[Email],TRUE,FALSE,TRUE,FALSE,True,unset,required,preferred,direct,unset,ES256,none,"hybrid,internal",preferred
+Github,True,GitHub,github.com,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,unset,required,required,none,unset,"ES256,RS256","appidExclude,credProps",empty-allow,required
+Yahoo,True,Yahoo!,yahoo.com,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,platform,discouraged(legacy),preferred,direct,unset,ES256,none,none-listed,preferred
+Adobe,True,Adobe,adobe.com,TRUE,[Password],TRUE,TRUE,TRUE,FALSE,True,unset,preferred,preferred,direct,unset,"ES256,ES384,ES512,RS256",credProps,none-listed,preferred
+Roblox,True,Roblox,roblox.com,TRUE,Email || Password || Passkey + [Captcha],TRUE,TRUE,FALSE,FALSE,True,unset,required,preferred,direct,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,preferred
+VK,True,vk,vk.com,Mobile App,,,,,,False,,,,,,,,,
+Ebay,True,eBay,ebay.com,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,discouraged(legacy),required,direct,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,-1",none,internal,required
+Discord,True,Discord,discord.com,TRUE,[Password],TRUE,TRUE,2FA,FALSE,True,unset,discouraged,preferred,none,unset,"ES256,RS256",credProps,,
+Shopify,True,Shopify,shopify.com,TRUE,Password || Passkey,TRUE,FALSE,TRUE,FALSE,True,unset,required(legacy),preferred,unset,unset,"ES256,PS256,RS256",none,none-listed,preferred
+Canva,True,Canva,canva.com,TRUE,Email,TRUE,FALSE,TRUE,FALSE,True,unset,preferred,required,unset,unset,"ES256,RS256",none,none-listed,required
+Hubspot,True,Hubspot,hubspot.com,Registration Error,,,,,,False,,,,,,,,,
+Stripe,True,Stripe,stripe.com,TRUE,Password + [Email || Passkey],TRUE,FALSE,TRUE,FALSE,True,unset,required(legacy),required,unset,unset,"ES256,PS256,RS256",none,none-listed,required
+Nvidia,True,Nvidia,nvidia.com,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,unset,required(legacy),required,none,unset,"ES256,PS256",none,empty-allow,required
+Uber,True,Uber,uber.com,TRUE,-,TRUE,TRUE,2FA,FALSE,True,unset,preferred,required,none,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,,
+PlayStation,True,PlayStation,playstation.com,Duplicate,,,,,,False,,,,,,,,,
+Zoho,True,Zoho,zoho.com,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,unset,required,required,direct,unset,"ES256,RS256",appidExclude,"hybrid,internal",unset
+Synology,True,Synology,synology.com,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,preferred,preferred,unset,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,"hybrid,internal",preferred
+Notion,True,Notion,notion.so,TRUE,Captcha,TRUE,FALSE,FALSE,FALSE,True,unset,preferred,preferred,none,unset,"EdDSA,ES256,RS256",credProps,empty-allow,discouraged
+Coinbase,True,Coinbase,coinbase.com,Personal identification required,,,,,,False,,,,,,,,,
+hCaptcha,True,hCaptcha,hcaptcha.com,TRUE,--,TRUE,TRUE,TRUE,FALSE,True,platform,required,preferred,direct,unset,"ES256,EdDSA,ES512,PS256,PS384,PS512,RS256,RS384,RS512",none,empty-allow,required
+Hyatt,True,World of Hyatt,hyatt.com,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,platform,preferred,unset,none,unset,"ES256,EdDSA,ES384,ES512,RS256,RS384,RS512",credProps,empty-allow,unset
+Square Up,True,Square,squareup.com,TRUE,Rate Limiting,TRUE,FALSE,FALSE,FALSE,True,unset,required,required,none,unset,"ES512,ES384,ES256,RS1,RS256,RS384,RS512,EdDSA",none,empty-allow,required
+Hatena,True,Hatena,hatena.ne.jp,TRUE,[Password],TRUE,TRUE,FALSE,FALSE,True,unset,preferred,preferred,unset,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,preferred
+Home Assistant,True,Home Assistant,home-assistant.io,Selfhosted,,,,,,False,,,,,,,,,
+Porkbun,True,Porkbun,porkbun.com,Hardware authenticator only,,,,,,False,,,,,,,,,
+Bitwarden,True,Bitwarden,bitwarden.com,TRUE,Password,TRUE,FALSE,FALSE,FALSE,True,unset,required(legacy),required,none,unset,"ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512,EdDSA",prf,empty-allow,required
+Docusign,True,DocuSign,docusign.com,TRUE,--,TRUE,FALSE,TRUE,FALSE,True,platform,required(legacy),required,direct,unset,"ES256,RS256",credProps,"hybrid,internal",required
+Kayak,True,KAYAK,kayak.com,TRUE,--,TRUE,TRUE,TRUE,FALSE,True,unset,required,unset,unset,unset,"ES256,RS256",none,empty-allow,preferred
+Arbeitsagentur,True,Arbeitsagentur,arbeitsagentur.de,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,unset,required(legacy),required,indirect,unset,"ES256,RS256,EdDSA,ES384,ES512,RS384,RS512",none,empty-allow,unset
+Visma,True,Visma,visma.com,TRUE,Password,TRUE,FALSE,TRUE,FALSE,True,platform,required(legacy),required,direct,unset,"ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512,EdDSA","exts,uvm",empty-allow,required
+Trimble,True,Trimble,trimble.com,TRUE,--,TRUE,FALSE,TRUE,FALSE,True,unset,required,required,none,unset,"ES256,RS256",none,none-listed,required
+Fastmail,True,Fastmail,fastmail.com,TRUE,--,TRUE,TRUE,TRUE,FALSE,True,platform,preferred,preferred,unset,client-device,"ES256,RS256",none,none-listed,required
+Discourse,True,Discourse,discourse.org,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,unset,required(legacy),required,unset,unset,"ES256,ES384,ES512,ES256K,EdDSA,PS256,PS384,PS512,4,5,6,7,RS256",none,empty-allow,required
+Vercel,True,Vercel,vercel.com,TRUE,Rate Limiting,TRUE,FALSE,FALSE,FALSE,True,unset,required,preferred,none,unset,"ES256,RS256",credProps,empty-allow,preferred
+Larksuite,True,larksuite.com,larksuite.com,TRUE,[Password] || [Email],TRUE,FALSE,TRUE,FALSE,True,unset,preferred,required,none,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,required
+BMW,True,BMW,bmw.com,TRUE,Password,TRUE,FALSE,TRUE,FALSE,True,unset,unset,preferred,direct,unset,"RS256,ES256",none,none-listed,unset
+Microcenter,True,Micro Center,microcenter.com,Foreign phone required,,,,,,False,,,,,,,,,
+Ankiweb,True,Anki Forums,ankiweb.net,No passkeys available,,,,,,False,,,,,,,,,
+Esl Gaming,True,Esl Gaming,eslgaming.com,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,platform,required(legacy),unset,unset,unset,"ES256,RS256",none,empty-allow,unset
+Linear,True,Linear,linear.app,TRUE,--,TRUE,FALSE,FALSE,FALSE,True,unset,required,preferred,none,unset,"EdDSA,ES256,RS256",credProps,empty-allow,preferred
+Migros,True,Migros,migros.ch,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,unset,required,required,direct,unset,"EdDSA,ES512,ES384,ES256,RS512,RS384,RS256","credProps,uvm",empty-allow,unset
+Crowdin,True,Crowdin,crowdin.com,TRUE,--,TRUE,FALSE,2FA,FALSE,True,unset,preferred,required,none,unset,"ES256,ES512,RS256,RS512",none,empty-allow,required
+XenForo,True,XenForo (Community),xenforo.com,TRUE,--,TRUE,FALSE,2FA,FALSE,True,unset,preferred,discouraged,none,unset,"ES256,EdDSA,RS256",none,none-listed,discouraged
+Spaceship,True,Spaceship (by NameCheap),spaceship.com,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,unset,required,required,direct,unset,"EdDSA,ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512","credProps,exts,uvm",empty-allow,required
+FusionAuth,True,FusionAuth,fusionauth.io,TRUE,--,TRUE,FALSE,2FA,FALSE,True,unset,unset,preferred,none,unset,"ES512,ES384,ES256,PS512,PS384,PS256,RS512,RS384,RS256",credProps,"hybrid,internal",required
+Luno,True,Luno,luno.com,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,unset,unset,unset,none,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,unset
+Devolutions,True,Devolutions,devolutions.com,TRUE,Password,TRUE,FALSE,TRUE,FALSE,True,unset,unset,preferred,unset,unset,"ES256,RS256",none,none-listed,required
+Moneybird,True,Moneybird,moneybird.com,TRUE,Password + Rate Limiting,TRUE,TRUE,2FA,FALSE,True,platform,required,required,unset,unset,"ES256,PS256,RS256",none,none-listed,required
+Level1Techs,True,Level1Techs Forum,level1techs.com,Restricted or paid access,,,,,,False,,,,,,,,,
+Air New Zealand,True,Air New Zealand,airnewzealand.com,TRUE,-,TRUE,TRUE,TRUE,TRUE,True,unset,required,preferred,none,unset,"EdDSA,ES256,RS256",credProps,"hybrid,internal",preferred
+Nulab,True,nulab,nulab.com,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,cross-platform,preferred,required,none,unset,"ES256,EdDSA,ES384,ES512,RS256,RS384,RS512",credProps,empty-allow,required
+Dinero,True,Dinero,dinero.dk,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,platform,required(legacy),required,direct,unset,"ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512,EdDSA","exts,uvm",empty-allow,required
+Cloze,True,Cloze,cloze.com,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,required,preferred,none,unset,"ES256,RS256",credProps,"hybrid,internal",required
+Finom,True,Finom,finom.co,TRUE,[Email],TRUE,FALSE,TRUE,FALSE,True,unset,discouraged(legacy),required,direct,unset,"ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512,EdDSA",none,none-listed,required
+Stall-Frei,True,Stall-Frei.de,stall-frei.de,TRUE,Rate-limiting beim Login,TRUE,FALSE,TRUE,FALSE,True,unset,unset,unset,none,unset,"EdDSA,ES256,RS256,PS256,-46",none,none-listed,discouraged
+Pastery,True,Pastery,pastery.net,Registration Error,,,,,,False,,,,,,,,,
+Station Drivers,True,Station-Drivers,station-drivers.com,Restricted or paid access,,,,,,False,,,,,,,,,
+Hard Wax,True,Hard Wax,hardwax.com,TRUE,Email + Password,TRUE,FALSE,TRUE,FALSE,True,unset,preferred,preferred,direct,unset,"ES256,RS256",none,"hybrid,internal",preferred
+Zitadel,True,Zitadel,zitadel.com,TRUE,Email,TRUE,FALSE,TRUE,FALSE,True,unset,unset,required,none,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,none-listed,required
+Authsignal,True,Authsignal,authsignal.com,TRUE,[Email],TRUE,TRUE,FALSE,TRUE,True,unset,required,required,none,unset,"EdDSA,ES256,RS256",credProps,empty-allow,required
+Corbado,True,Corbado,corbado.com,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,required,required,indirect,unset,"ES256,RS256",none,"hybrid,internal",preferred
+Hanko.io,True,Hanko.io,hanko.io,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,required,required,direct,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,preferred
+Techbookfest,True,techbookfest,techbookfest.org,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,unset,preferred,preferred,none,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,preferred
+Minter,True,minter.io,minter.io,TRUE,Other,TRUE,TRUE,FALSE,FALSE,True,unset,unset,unset,none,unset,"ES256,EdDSA,ES512,PS256,PS384,PS512,RS256,RS384,RS512",none,empty-allow,preferred
+High Mobility,True,High Mobility,high-mobility.com,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,unset,preferred,preferred,direct,unset,"EdDSA,ES256,RS256",credProps,empty-allow,preferred
+FormX,True,FormX.ai,formx.ai,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,unset,preferred,preferred,direct,unset,"ES256,RS256","credProps,uvm",empty-allow,preferred
+Forward Email,True,ForwardEmail,forwardemail.net,TRUE,--,TRUE,FALSE,FALSE,FALSE,True,unset,preferred,preferred,unset,unset,"ES256,RS256","credProps,minPinLength",empty-allow,unset
+Mysites,True,mySites.guru,mysites.guru,Business email required,,,,,,False,,,,,,,,,
+Papermark,True,Papermark,papermark.io,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,unset,required,required,direct,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,empty-allow,required
+Locker,True,Locker ,locker.io,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,unset,preferred,required,none,unset,"ES256,RS256",none,"hybrid,internal",preferred
+Glauca Digital,True,Glauca Digital,glauca.digital,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,unset,required(legacy),required,none,unset,"ES256,ES384,ES512",none,empty-allow,required
+Documenso,True,Documenso,documenso.com,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,unset,preferred,preferred,none,unset,"EdDSA,ES256,RS256",credProps,empty-allow,preferred
+Authgear,True,Authgear,authgear.com,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,unset,preferred,preferred,direct,unset,"ES256,RS256","credProps,uvm",none-listed,preferred
+Passage,True,Passage,passage.id,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,platform,preferred,preferred,direct,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,"hybrid,internal",preferred
+Horizon,True,Horizon Pics,horizon.pics,TRUE,-,TRUE,FALSE,TRUE,FALSE,True,unset,discouraged(legacy),preferred,unset,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,none-listed,preferred
+Australian Government,True,MyGov AU,my.gov.au,TRUE,Email,TRUE,FALSE,FALSE,FALSE,True,unset,required,required,direct,unset,"ES256,RS256",authenticators,empty-allow,required
+ComputerBase,True,ComputerBase,computerbase.de,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,unset,preferred,discouraged,none,unset,"ES256,EdDSA,RS256",none,none-listed,discouraged
+Customer Ping,True,CustomerPing.AI,customerping.ai,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,unset,required,preferred,direct,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",none,none-listed,preferred
+DEXT,True,DEXT,dext.com,TRUE,Password,TRUE,FALSE,FALSE,FALSE,True,unset,required,required,none,unset,"ES256,PS256,RS256",none,empty-allow,required
+Hancock,True,Hancock,hancock.ink,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,unset,required,required,direct,unset,"EdDSA,ES256,RS256",credProps,empty-allow,required
+Heexy,True,Heexy,heexy.org,TRUE,-,TRUE,FALSE,FALSE,FALSE,True,cross-platform,preferred,preferred,none,unset,"EdDSA,ES256,RS256",credProps,empty-allow,preferred
+Klemn,True,Klemn,klemn.net,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,unset,required,preferred,none,unset,"EdDSA,ES256,RS256,PS256,ES384,RS384,PS384,ES512,RS512,PS512",credProps,empty-allow,preferred
+Netfiles,True,netfiles,netfiles.com,Restricted or paid access,,,,,,False,,,,,,,,,
+Vault Vision,True,Vault Vision,vaultvision.com,Registration Error,,,,,,False,,,,,,,,,
+SK Telecom,True,SK Telecom,sktelecom.com,Restricted or paid access,,,,,,False,,,,,,,,,
+Turnkey,True,Turnkey,turnkey.com,TRUE,-,TRUE,FALSE,2FA,FALSE,True,platform,discouraged,discouraged,direct,unset,"ES256,RS256",none,"hybrid,internal",discouraged
+PayPal,True,PayPal,paypal.com,TRUE,SMS,FALSE,TRUE,TRUE,FALSE,True,platform,preferred,required,direct,unset,"ES256,RS256",none,none-listed,required
+Target,True,Target,target.com,TRUE,[Email] + Rate Limiting,TRUE,FALSE,TRUE,FALSE,True,platform,required(legacy),required,none,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512",none,internal,required
+Best Buy,True,Best Buy,bestbuy.com,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,platform,required,required,none,unset,"ES256,RS256",none,empty-allow,required
+Pixiv,True,Pixiv,pixiv.net,TRUE,Captcha,TRUE,TRUE,FALSE,TRUE,True,platform,required,required,none,unset,"EdDSA,ES256,RS256",none,empty-allow,required
+Shop,True,Shop Pay,shop.app,No passkeys available,,,,,,False,,,,,,,,,
+Konami,True,My KONAMI,konami.net,Website down,,,,,,False,,,,,,,,,
+Sumup,True,SumUp,sumup.com,TRUE,Email,TRUE,TRUE,FALSE,TRUE,True,platform,required,required,unset,unset,"ES256,ES384,ES512,RS256,RS384,RS512,PS256,PS384,PS512,EdDSA",credProps,empty-allow,required
+Money Forward,True,Money Forward ID,moneyforward.com,TRUE,--,TRUE,TRUE,TRUE,TRUE,True,platform,required,required,unset,unset,"ES256,PS256,RS256",none,empty-allow,required
+Cash App,True,Cash App,cash.app,Geolocation restricted,,,,,,False,,,,,,,,,
+Link,True,Link by Stripe,link.com,TRUE,[Email],TRUE,FALSE,TRUE,FALSE,True,platform,required(legacy),required,unset,unset,"ES256,RS256",none,none-listed,required
+Lnk,True,lnk.bio,lnk.bio,TRUE,-,TRUE,TRUE,FALSE,FALSE,True,platform,required(legacy),required,unset,unset,"ES256,RS256",none,empty-allow,required
+Free Tax USA,True,Free Tax USA,freetaxusa.com,Foreign phone required,,,,,,False,,,,,,,,,
+Webull,True,Webull,webull.com.au,TRUE,Password + Captcha + SMS,TRUE,FALSE,FALSE,FALSE,True,platform,required,required,none,unset,"ES256,RS256",none,empty-allow,unset
+Syncfusion,True,Syncfusion,syncfusion.com,Business email required,,,,,,False,,,,,,,,,
+Marshmallow,True,Marshmallow,marshmallow-qa.com,TRUE,--,TRUE,TRUE,FALSE,FALSE,True,platform,required(legacy),required,unset,unset,"ES256,PS256,RS256",none,empty-allow,required
+Marketcircle,True,Daylite,marketcircle.com,TRUE,-,TRUE,TRUE,TRUE,FALSE,True,platform,unset,unset,none,unset,"ES256,EdDSA,ES512,PS256,PS384,PS512,RS256,RS384,RS512",none,none-listed,preferred
+Lowes,True,Lowe's,lowes.com,Foreign phone required,,,,,,False,,,,,,,,,
+Nintendo,True,Nintendo,nintendo.com,TRUE,[Password],TRUE,TRUE,FALSE,FALSE,True,platform,required,required,none,unset,"ES256,ES384,ES512,EdDSA",none,empty-allow,required
+Binance,True,Binance,binance.com,TRUE,Passkey || Email + [Rate Limiting],TRUE,FALSE,TRUE,FALSE,True,unset,discouraged(legacy),preferred,direct,unset,"RS1,RS256,RS384,RS512,PS256,PS384,PS512,ES256,ES384,ES512,EdDSA,-43",credProps,"hybrid,internal",preferred
+OneLog,True,OneLog,onelog.ch,TRUE,-,FALSE,FALSE,TRUE,FALSE,True,platform,required(legacy),required,none,unset,"ES256,RS256",none,internal,required
+Tailscale,True,Tailscale,tailscale.com,Registration Error,,,,,,False,,,,,,,,,
+LGTM,True,LGTM.lol,lgtm.lol,TRUE,-,FALSE,FALSE,TRUE,FALSE,True,unset,unset,unset,unset,unset,"ES256,PS256,RS256",none,none-listed,unset
